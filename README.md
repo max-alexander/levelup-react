@@ -73,3 +73,4 @@ docs/              ERS v2, documento de cobertura de testing, capturas y evidenc
 
 - ERS v2: [Markdown](docs/ERS_v2.md) · [Word](docs/ERS_v2.docx)
 - Documento de cobertura de testing: [Markdown](docs/Cobertura_Testing.md) · [Word](docs/Cobertura_Testing.docx)
+- Presentación: [PDF](docs/presentacion/LEVELUP_Entrega2_Presentacion.pdf) · [PowerPoint con notas de orador](docs/presentacion/LEVELUP_Entrega2_Presentacion.pptx)
