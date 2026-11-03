@@ -6,7 +6,7 @@ describe('Lógica del catálogo y formato', () => {
   it('filtra por texto, plataforma y categoría', () => {
     expect(filterGames(SEED_GAMES, { query: 'mario' }).map(g => g.id).sort()).toEqual([12, 13]);
     expect(filterGames(SEED_GAMES, { platform: 'Xbox' }).every(g => g.platform === 'Xbox')).toBeTrue();
-    expect(filterGames(SEED_GAMES, { platform: 'Nintendo Switch', category: 'Plataformas' }).length).toBe(2);
+    expect(filterGames(SEED_GAMES, { platform: 'Nintendo Switch', category: 'Plataformas' }).map(g => g.id).sort((a, b) => a - b)).toEqual([12, 16, 44, 47]);
     expect(filterGames(SEED_GAMES, { query: 'no-existe' })).toEqual([]);
   });
 
@@ -15,7 +15,7 @@ describe('Lógica del catálogo y formato', () => {
     const sorted = sortGames(SEED_GAMES, 'price-asc');
     expect(SEED_GAMES).toEqual(original);
     for (let i = 1; i < sorted.length; i++) expect(finalPrice(sorted[i - 1])).toBeLessThanOrEqual(finalPrice(sorted[i]));
-    expect(sortGames(SEED_GAMES, 'name')[0].title).toBe('Celeste');
+    expect(sortGames(SEED_GAMES, 'name')[0].title).toBe('Animal Crossing: New Horizons');
   });
 
   it('pagina resultados y ajusta páginas fuera de rango', () => {

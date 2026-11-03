@@ -1,6 +1,6 @@
 // Datos iniciales de la "base de datos" simulada.
-// Las imágenes se completan con la API de RAWG desde el panel admin ("Sincronizar catálogo");
-// mientras tanto, GameImage muestra un placeholder con la plataforma.
+// Las portadas están incluidas en public/assets/games/{id}.jpg (no requieren internet).
+// Los productos creados sin imagen desde el admin muestran un placeholder por plataforma.
 
 export const PLATFORMS = ['PlayStation', 'Xbox', 'Nintendo Switch'];
 
@@ -17,7 +17,7 @@ export const SEED_CATEGORIES = [
 
 const g = (id, title, category, platform, price, stock, rating, description, extra = {}) => ({
   id, title, category, platform, price, stock, rating, description,
-  image: '', featured: false, discount: 0, source: 'manual', ...extra
+  image: `/assets/games/${id}.jpg`, featured: false, discount: 0, source: 'local', ...extra
 });
 
 export const SEED_GAMES = [
@@ -38,7 +38,40 @@ export const SEED_GAMES = [
   g(15, 'Hollow Knight', 'Indie', 'Nintendo Switch', 14990, 30, 4.8, 'Explora un reino de insectos en ruinas en este metroidvania desafiante.', { discount: 10 }),
   g(16, 'Celeste', 'Plataformas', 'Nintendo Switch', 14990, 2, 4.7, 'Ayuda a Madeline a escalar la montaña Celeste y superar sus miedos.'),
   g(17, 'Stardew Valley', 'Indie', 'PlayStation', 14990, 22, 4.8, 'Hereda una granja, cultiva, pesca y forma parte de la comunidad.'),
-  g(18, 'Elden Ring', 'RPG', 'Xbox', 54990, 8, 4.9, 'Recorre las Tierras Intermedias en un RPG de acción desafiante.', { featured: true, discount: 20 })
+  g(18, 'Elden Ring', 'RPG', 'Xbox', 54990, 8, 4.9, 'Recorre las Tierras Intermedias en un RPG de acción desafiante.', { featured: true, discount: 20 }),
+  // PlayStation
+  g(19, 'The Last of Us Part I', 'Aventura', 'PlayStation', 49990, 11, 4.8, 'Joel y Ellie cruzan unos Estados Unidos devastados en esta versión rehecha del clásico.', { featured: true }),
+  g(20, 'Ghost of Tsushima', 'Acción', 'PlayStation', 39990, 15, 4.7, 'Jin Sakai defiende la isla de Tsushima de la invasión mongola en el Japón feudal.', { discount: 30 }),
+  g(21, 'Ratchet & Clank: Rift Apart', 'Plataformas', 'PlayStation', 44990, 9, 4.6, 'Salta entre dimensiones con Ratchet, Clank y Rivet en una aventura llena de armas.'),
+  g(22, 'Final Fantasy XVI', 'RPG', 'PlayStation', 54990, 6, 4.3, 'Clive Rosfield busca venganza en Valisthea, un mundo dominado por los Eikons.'),
+  g(23, 'Returnal', 'Shooter', 'PlayStation', 34990, 4, 4.4, 'Selene queda atrapada en un bucle temporal en un planeta alienígena hostil.', { discount: 20 }),
+  g(24, 'Astro Bot', 'Plataformas', 'PlayStation', 59990, 13, 4.9, 'Astro rescata a su tripulación en un viaje por galaxias llenas de creatividad.', { featured: true }),
+  g(25, 'Demon’s Souls', 'RPG', 'PlayStation', 49990, 3, 4.5, 'Remake del clásico que inició el género soulslike, en el reino de Boletaria.'),
+  g(26, 'NBA 2K25', 'Deportes', 'PlayStation', 49990, 21, 3.8, 'Básquetbol con equipos de la NBA, modo carrera y MyTEAM.', { discount: 25 }),
+  g(27, 'Uncharted 4: A Thief’s End', 'Aventura', 'PlayStation', 24990, 17, 4.7, 'Nathan Drake vuelve para una última búsqueda del tesoro pirata de Henry Avery.'),
+  g(28, 'Hades', 'Indie', 'PlayStation', 19990, 24, 4.9, 'Zagreo intenta escapar del inframundo en este roguelike de acción.'),
+  // Xbox
+  g(29, 'Halo: The Master Chief Collection', 'Shooter', 'Xbox', 29990, 14, 4.6, 'Las campañas clásicas del Jefe Maestro reunidas en una sola colección.'),
+  g(30, 'Sea of Thieves', 'Aventura', 'Xbox', 29990, 19, 4.2, 'Forma una tripulación pirata y navega en busca de tesoros en línea.', { discount: 35 }),
+  g(31, 'Forza Motorsport', 'Carreras', 'Xbox', 54990, 7, 4.1, 'Simulación de carreras en circuitos reales con cientos de autos.'),
+  g(32, 'Indiana Jones and the Great Circle', 'Aventura', 'Xbox', 64990, 10, 4.5, 'Indy recorre el mundo para resolver un misterio ancestral en 1937.', { featured: true }),
+  g(33, 'Avowed', 'RPG', 'Xbox', 59990, 5, 4.1, 'Explora las Tierras Vivientes, un mundo de fantasía con magia y espadas.'),
+  g(34, 'Cuphead', 'Indie', 'Xbox', 14990, 26, 4.6, 'Jefes desafiantes con animación inspirada en los dibujos animados de los años 30.'),
+  g(35, 'Ori and the Will of the Wisps', 'Plataformas', 'Xbox', 19990, 12, 4.8, 'Ori emprende un viaje para descubrir su destino en un bosque encantado.', { discount: 15 }),
+  g(36, 'Call of Duty: Black Ops 6', 'Shooter', 'Xbox', 69990, 18, 4.0, 'Espionaje y acción en los años 90, con campaña, multijugador y zombis.'),
+  g(37, 'Rocket League', 'Deportes', 'Xbox', 9990, 30, 4.3, 'Fútbol con autos propulsados por cohetes, en partidas rápidas en línea.'),
+  g(38, 'Diablo IV', 'RPG', 'Xbox', 44990, 2, 4.2, 'Enfréntate a Lilith en el regreso de la saga de rol de acción más oscura.', { discount: 40 }),
+  // Nintendo Switch
+  g(39, 'Metroid Dread', 'Acción', 'Nintendo Switch', 49990, 8, 4.7, 'Samus Aran explora el planeta ZDR mientras huye de los implacables E.M.M.I.'),
+  g(40, 'Animal Crossing: New Horizons', 'Aventura', 'Nintendo Switch', 54990, 16, 4.6, 'Construye tu vida en una isla desierta junto a vecinos encantadores.'),
+  g(41, 'Super Smash Bros. Ultimate', 'Acción', 'Nintendo Switch', 59990, 20, 4.8, 'Todos los luchadores de la saga reunidos en un juego de peleas para todos.', { featured: true }),
+  g(42, 'Pikmin 4', 'Aventura', 'Nintendo Switch', 54990, 9, 4.5, 'Dirige a los Pikmin para rescatar a tu tripulación en un planeta misterioso.'),
+  g(43, 'Xenoblade Chronicles 3', 'RPG', 'Nintendo Switch', 54990, 4, 4.6, 'Noah y Mio luchan en una guerra eterna entre las naciones de Keves y Agnus.', { discount: 25 }),
+  g(44, 'Kirby and the Forgotten Land', 'Plataformas', 'Nintendo Switch', 54990, 15, 4.6, 'Kirby explora un mundo en 3D y absorbe objetos con su nuevo poder.'),
+  g(45, 'Splatoon 3', 'Shooter', 'Nintendo Switch', 54990, 11, 4.4, 'Batallas de tinta en equipo, con campaña y modos competitivos.'),
+  g(46, 'Nintendo Switch Sports', 'Deportes', 'Nintendo Switch', 39990, 22, 4.0, 'Tenis, bowling, fútbol y más, jugados con movimiento.'),
+  g(47, 'Donkey Kong Country: Tropical Freeze', 'Plataformas', 'Nintendo Switch', 44990, 7, 4.6, 'Donkey Kong y su familia recuperan su isla congelada por los Snowmads.', { discount: 20 }),
+  g(48, 'Dead Cells', 'Indie', 'Nintendo Switch', 19990, 25, 4.5, 'Roguelike de acción en un castillo que cambia en cada partida.')
 ];
 
 export const SEED_USERS = [
@@ -58,17 +91,17 @@ export const SEED_ORDERS = [
     customer: { name: 'Usuario', lastName: 'Cliente', email: 'user@game.com' },
     address: { street: 'Los Crisantemos 742', apartment: 'Depto 603', region: 'Región Metropolitana', comuna: 'Ñuñoa', notes: '' },
     items: [
-      { id: 13, title: 'Mario Kart 8 Deluxe', price: 54990, quantity: 1 },
-      { id: 15, title: 'Hollow Knight', price: 13491, quantity: 2 }
+      { id: 13, title: 'Mario Kart 8 Deluxe', image: '/assets/games/13.jpg', platform: 'Nintendo Switch', price: 54990, quantity: 1 },
+      { id: 15, title: 'Hollow Knight', image: '/assets/games/15.jpg', platform: 'Nintendo Switch', price: 13491, quantity: 2 }
     ],
-    subtotal: 81972, couponDiscount: 0, total: 81972
+    subtotal: 81972, couponDiscount: 0, total: 81972, authorization: 'AUT-104521'
   },
   {
     id: 2, code: 'LV-20261015', userId: 2, status: 'pagada', date: '2026-10-15T19:05:00.000Z',
     customer: { name: 'Usuario', lastName: 'Cliente', email: 'user@game.com' },
     address: { street: 'Los Crisantemos 742', apartment: 'Depto 603', region: 'Región Metropolitana', comuna: 'Ñuñoa', notes: '' },
-    items: [{ id: 1, title: 'God of War Ragnarök', price: 59990, quantity: 1 }],
-    subtotal: 59990, couponDiscount: 0, total: 59990
+    items: [{ id: 1, title: 'God of War Ragnarök', image: '/assets/games/1.jpg', platform: 'PlayStation', price: 59990, quantity: 1 }],
+    subtotal: 59990, couponDiscount: 0, total: 59990, authorization: 'AUT-118734'
   }
 ];
 

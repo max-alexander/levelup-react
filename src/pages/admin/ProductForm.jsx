@@ -84,7 +84,7 @@ export default function ProductForm() {
         <div className="col-xl-4">
           <div className="surface-card">
             <small className="section-kicker">VISTA PREVIA</small>
-            <GameImage key={values.image} game={{ title: values.title || 'Nuevo producto', platform: values.platform, image: values.image }} className="preview-image mt-2" />
+            <GameImage key={values.image} game={{ title: values.title || 'Nuevo producto', platform: values.platform, image: values.image }} className="preview-image mt-2" fit="contain" />
             <h5 className="mt-3 mb-1">{values.title || 'Título del producto'}</h5>
             <small className="text-secondary">{values.category || 'Categoría'} · {values.platform || 'Plataforma'}</small>
           </div>

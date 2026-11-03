@@ -14,7 +14,8 @@ describe('Catálogo (filtros y paginación)', () => {
     renderApp('/productos');
     expect(screen.getAllByTestId('game-card').length).toBe(PAGE_SIZE);
     fireEvent.click(screen.getByRole('button', { name: '2' }));
-    expect(screen.getAllByTestId('game-card').length).toBe(db.games.getAll().length - PAGE_SIZE);
+    expect(screen.getAllByTestId('game-card').length).toBe(Math.min(PAGE_SIZE, db.games.getAll().length - PAGE_SIZE));
+    expect(screen.getByRole('button', { name: '2' }).getAttribute('aria-current')).toBe('page');
   });
 
   it('filtra por plataforma y limpia los filtros', () => {

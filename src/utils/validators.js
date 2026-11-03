@@ -15,6 +15,9 @@ export const isHttpUrl = value => {
   }
 };
 
+/** Portadas incluidas en el proyecto (public/assets/games). */
+export const isLocalAsset = value => /^\/assets\/[\w\-/]+\.(jpe?g|png|webp)$/i.test(String(value ?? ''));
+
 export function required(value, label = 'Este campo') {
   return String(value ?? '').trim() ? '' : `${label} es obligatorio.`;
 }
@@ -123,7 +126,7 @@ export function productRules(categories) {
       const n = Number(v);
       return v !== '' && n >= 1 && n <= 5 ? '' : 'Valoración entre 1 y 5.';
     },
-    image: v => (!v || isHttpUrl(v) ? '' : 'Ingresa una URL http(s) válida o déjalo vacío.'),
+    image: v => (!v || isHttpUrl(v) || isLocalAsset(v) ? '' : 'Ingresa una URL http(s) válida o déjalo vacío.'),
     description: v => {
       const len = String(v ?? '').trim().length;
       return len >= 20 && len <= 240 ? '' : 'La descripción debe tener entre 20 y 240 caracteres.';

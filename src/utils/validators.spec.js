@@ -1,5 +1,5 @@
 import {
-  isValidEmail, isHttpUrl, validateEmail, validateName, validatePassword, validateExpiry,
+  isValidEmail, isHttpUrl, isLocalAsset, validateEmail, validateName, validatePassword, validateExpiry,
   runValidators, registerRules, productRules, cardRules
 } from './validators';
 
@@ -53,5 +53,8 @@ describe('Validadores (lógica de formularios)', () => {
     expect(cardRules.cardCvv('12a')).not.toBe('');
     expect(isHttpUrl('https://media.rawg.io/a.jpg')).toBeTrue();
     expect(isHttpUrl('javascript:alert(1)')).toBeFalse();
+    expect(isLocalAsset('/assets/games/12.jpg')).toBeTrue();
+    expect(isLocalAsset('/assets/../secreto.txt')).toBeFalse();
+    expect(productRules(['RPG']).image('/assets/games/9.jpg')).toBe('');
   });
 });

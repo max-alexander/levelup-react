@@ -58,7 +58,7 @@ export default function GameDetail() {
       </nav>
       <div className="surface-card p-0 overflow-hidden mb-5">
         <div className="row g-0">
-          <div className="col-lg-6"><GameImage game={game} className="game-detail-image" /></div>
+          <div className="col-lg-6"><GameImage game={game} className="game-detail-image" fit="contain" /></div>
           <div className="col-lg-6">
             <div className="detail-content">
               <span className="section-kicker">{game.category} · {game.platform}</span>

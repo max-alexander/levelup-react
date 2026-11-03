@@ -20,8 +20,11 @@ describe('rawgService (API externa mockeada)', () => {
   });
 
   it('syncCovers actualiza solo los juegos sin imagen y cuenta los fallos', async () => {
+    // Simula 5 productos creados sin portada; el resto conserva su imagen.
+    [2, 3, 4, 5, 6].forEach(id => db.games.update(id, { image: '' }));
     db.games.update(1, { image: 'https://ya-tiene.jpg' });
     const pending = db.games.getAll().filter(game => !game.image).length;
+    expect(pending).toBe(5);
     let call = 0;
     const fetchFn = jasmine.createSpy('fetch').and.callFake(() => {
       call++;

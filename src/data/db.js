@@ -3,7 +3,8 @@
 // de modo que la interfaz se actualiza en tiempo real (ver hooks/useCollection).
 import { SEED_CATEGORIES, SEED_GAMES, SEED_ORDERS, SEED_USERS } from './seed';
 
-export const DB_VERSION = 'v2';
+// Cambiar la versión fuerza a recargar los datos semilla en navegadores con datos antiguos.
+export const DB_VERSION = 'v3';
 const listeners = new Set();
 
 export const storage = {

@@ -3,7 +3,7 @@
 **Proyecto:** LEVEL/UP — Tienda online de videojuegos (frontend React)\
 **Asignatura:** DSY1104 Desarrollo Fullstack II — Evaluación Parcial 2\
 **Herramientas:** Jasmine 5.5 · Karma 6.4 · Chrome Headless · babel-plugin-istanbul + karma-coverage · @testing-library/react\
-**Resultado:** **111 pruebas, 111 exitosas, 0 fallidas**, ejecutadas en unos 1,6 s
+**Resultado:** **112 pruebas, 112 exitosas, 0 fallidas**, ejecutadas en unos 2 s
 
 ---
 
@@ -64,7 +64,7 @@ npm test
 | Requisito | Prueba (describe › it) |
 |--------------|------------------------------|
 | Renderizado correcto con los datos dados | GameCard › *renderiza los datos del juego recibido por props* |
-| **Tarea:** la lista renderiza todos los elementos | GameList › *renderiza una tarjeta por cada elemento del conjunto de datos* (18 de 18) |
+| **Tarea:** la lista renderiza todos los elementos | GameList › *renderiza una tarjeta por cada elemento del conjunto de datos* (48 de 48) |
 | | Catálogo › *pagina los productos y permite cambiar de página* |
 | | Vistas de contenido › *el blog lista todos los artículos y abre su detalle* |
 
@@ -118,8 +118,8 @@ Los servicios se exportan como **objetos** (`authService`, `paymentGateway`, `ra
 
 ### 6.1 Ejecución
 ```
-Chrome Headless 156.0.0.0 (Windows 10): Executed 111 of 111 SUCCESS (1.6 secs)
-TOTAL: 111 SUCCESS
+Chrome Headless 156.0.0.0 (Windows 10): Executed 112 of 112 SUCCESS (2.0 secs)
+TOTAL: 112 SUCCESS
 ```
 El log completo está en `docs/evidencias/karma-run.txt`.
 
@@ -127,10 +127,10 @@ El log completo está en `docs/evidencias/karma-run.txt`.
 
 | Métrica | Cubierto | Total | % | Umbral |
 |---|---|---|---|---|
-| Statements | 939 | 1038 | **90,46%** | 70% ✔ |
-| Branches | 611 | 741 | **82,45%** | 55% ✔ |
-| Functions | 355 | 411 | **86,37%** | 65% ✔ |
-| Lines | 793 | 859 | **92,31%** | 70% ✔ |
+| Statements | 944 | 1043 | **90,50%** | 70% ✔ |
+| Branches | 618 | 749 | **82,51%** | 55% ✔ |
+| Functions | 356 | 413 | **86,19%** | 65% ✔ |
+| Lines | 797 | 863 | **92,35%** | 70% ✔ |
 
 ### 6.3 Cobertura por módulo (statements / branches / lines)
 
@@ -139,13 +139,13 @@ El log completo está en `docs/evidencias/karma-run.txt`.
 | `src/hooks` | 100% | 100% | 100% | `useCollection` y `useForm`, cubiertos de forma indirecta por las páginas. |
 | `src/services` | 98,9% | 93,4% | 100% | Reglas de compra, auth y RAWG, todas con mocks. |
 | `src/data` | 98,6% | 94,1% | 98,2% | CRUD completo, suscripción y JSON corrupto. |
-| `src/components/common` | 98,3% | 93,6% | 97,9% | Componentes reutilizables. |
-| `src/utils` | 97,3% | 85,2% | 97,0% | Validadores y catálogo. |
+| `src/components/common` | 96,8% | 92,9% | 96,0% | Componentes reutilizables. |
+| `src/utils` | 98,2% | 84,9% | 98,0% | Validadores y catálogo. |
 | `src/context` | 93,4% | 79,6% | 97,5% | Reducer y providers. |
 | `src/components/layout` | 91,7% | 80,0% | 93,5% | Navbar y layout. |
-| `src/pages/store` | 90,7% | 77,1% | 90,9% | Flujos de compra, auth y contenido. |
-| `src/components/store` | 85,1% | 82,0% | 85,4% | — |
-| `src/pages/admin` | 80,9% | 71,0% | 85,4% | CRUD admin. |
+| `src/pages/store` | 90,7% | 77,6% | 90,9% | Flujos de compra, auth y contenido. |
+| `src/components/store` | 85,1% | 80,3% | 85,4% | — |
+| `src/pages/admin` | 80,9% | 72,3% | 85,4% | CRUD admin. |
 | `src/components/admin` | 57,1% | 75,0% | 70,0% | Menú móvil del sidebar y botón de logout sin pruebas. |
 
 El detalle por archivo está en `docs/evidencias/coverage.txt`; el reporte HTML navegable se genera en `coverage/html/index.html`.
@@ -170,7 +170,9 @@ El detalle por archivo está en `docs/evidencias/coverage.txt`; el reporte HTML 
 | `Users.jsx` / `Categories.jsx` admin (74–77%) | Ramas de error (correo o nombre duplicado) | Propuesta: pruebas de validación de duplicados. |
 | `PaymentResult.jsx` (70%) | Botones imprimir y enviar boleta | Usan `window.print` y un toast; se pueden cubrir con `spyOn(window, 'print')`. |
 
-**Hallazgo durante el proceso:** al activar los *future flags* de React Router se olvidó importar `ROUTER_FUTURE` en `main.jsx`. Las 111 pruebas seguían pasando porque `main.jsx` no se prueba (solo monta la app), pero el build quedaba en blanco. Se detectó al revisar la app en Chrome y se corrigió. Conclusión: las pruebas unitarias no reemplazan una verificación manual o *smoke test* del build. Como mejora se propone una prueba de humo que monte `main.jsx`.
+**Hallazgo 1, un bug que las pruebas sí detectaron:** al ampliar el catálogo a 48 juegos con portadas incluidas en el proyecto (`/assets/games/{id}.jpg`), la prueba *"edita un producto existente"* falló. El validador de imagen del formulario solo aceptaba URLs `http(s)`, así que **ningún producto existente se podía editar**. Se agregó `isLocalAsset()` al validador y una prueba de regresión. Este caso muestra el valor de tener pruebas de los flujos completos.
+
+**Hallazgo 2, un bug que las pruebas no detectaron:** al activar los *future flags* de React Router se olvidó importar `ROUTER_FUTURE` en `main.jsx`. Las 111 pruebas seguían pasando porque `main.jsx` no se prueba (solo monta la app), pero el build quedaba en blanco. Se detectó al revisar la app en Chrome y se corrigió. Conclusión: las pruebas unitarias no reemplazan una verificación manual o *smoke test* del build. Como mejora se propone una prueba de humo que monte `main.jsx`.
 
 **Conclusión:** la cobertura supera holgadamente los umbrales definidos (90% de statements frente al 70% exigido). Las brechas restantes están en elementos visuales secundarios del panel admin, no en la lógica de negocio.
 

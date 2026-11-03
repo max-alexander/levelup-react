@@ -79,10 +79,12 @@ describe('Admin · Categorías, usuarios y órdenes', () => {
   });
 
   it('renombrar una categoría actualiza sus productos', () => {
+    const rpgCount = db.games.find(game => game.category === 'RPG').length;
     const { container } = renderApp('/admin/categorias/3/editar', { as: 'admin' });
     fill(container, 'name', 'Rol');
     fireEvent.click(screen.getByRole('button', { name: 'Guardar categoría' }));
-    expect(db.games.find(game => game.category === 'Rol').length).toBe(3);
+    expect(rpgCount).toBeGreaterThan(0);
+    expect(db.games.find(game => game.category === 'Rol').length).toBe(rpgCount);
     expect(db.games.find(game => game.category === 'RPG').length).toBe(0);
   });
 
@@ -120,13 +122,23 @@ describe('Admin · Categorías, usuarios y órdenes', () => {
 });
 
 describe('Admin · Dashboard (sincronización RAWG mockeada)', () => {
-  it('llama al servicio y notifica el resultado', async () => {
-    const sync = spyOn(rawgService, 'syncCovers').and.returnValue(Promise.resolve({ updated: 18, failed: 0, total: 18 }));
+  // Productos creados sin portada (los datos semilla ya traen imagen local).
+  beforeEach(() => [1, 2].forEach(id => db.games.update(id, { image: '' })));
+
+  it('con todas las portadas presentes el botón queda deshabilitado', () => {
+    db.games.update(1, { image: '/assets/games/1.jpg' });
+    db.games.update(2, { image: '/assets/games/2.jpg' });
     renderApp('/admin', { as: 'admin' });
-    fireEvent.click(screen.getByRole('button', { name: /Sincronizar 18 portadas/ }));
+    expect(screen.getByRole('button', { name: /Portadas al día/ }).disabled).toBeTrue();
+  });
+
+  it('llama al servicio y notifica el resultado', async () => {
+    const sync = spyOn(rawgService, 'syncCovers').and.returnValue(Promise.resolve({ updated: 2, failed: 0, total: 2 }));
+    renderApp('/admin', { as: 'admin' });
+    fireEvent.click(screen.getByRole('button', { name: /Sincronizar 2 portadas/ }));
     expect(sync).toHaveBeenCalled();
     expect(await screen.findByText('Catálogo sincronizado')).toBeTruthy();
-    expect(screen.getByText('18 portadas actualizadas.')).toBeTruthy();
+    expect(screen.getByText('2 portadas actualizadas.')).toBeTruthy();
   });
 
   it('muestra un aviso si la API falla', async () => {

@@ -27,10 +27,10 @@ export default function PaymentResult({ success }) {
         {success ? (
           <>
             <div className="d-flex justify-content-between flex-wrap gap-2">
-              <h3 className="text-success-emphasis"><i className="fa-regular fa-circle-check text-success me-2" />Se ha realizado la compra. nro #{order.id}</h3>
+              <h3><i className="fa-regular fa-circle-check text-success me-2" />Se ha realizado la compra. nro #{order.id}</h3>
               <small className="text-secondary">Código orden: {order.code}</small>
             </div>
-            <p className="text-secondary">Autorización {order.authorization}. Te enviamos el detalle a {order.customer.email}.</p>
+            <p className="text-secondary">{order.authorization && `Autorización ${order.authorization}. `}Te enviamos el detalle a {order.customer.email}.</p>
           </>
         ) : (
           <>

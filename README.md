@@ -28,7 +28,8 @@ El reporte de cobertura queda en `coverage/html/index.html`.
 
 - Cupón de descuento: `LEVEL10` (10% extra).
 - Pasarela de pago simulada: cualquier tarjeta válida de 16 dígitos se aprueba; la tarjeta **4000 0000 0000 0002** siempre se rechaza, para probar la vista de pago con error.
-- Panel admin → **Sincronizar portadas (RAWG)**: descarga desde la API de RAWG las portadas de los juegos que aún no tienen imagen. Mientras tanto se muestra un placeholder por plataforma.
+- El catálogo trae **48 juegos** (16 por plataforma) con portadas incluidas en `public/assets/games/`, así que no necesita internet.
+- Panel admin → **Sincronizar portadas (RAWG)**: busca en la API de RAWG la portada de los productos nuevos creados sin imagen. Mientras tanto se muestra un placeholder por plataforma.
 
 ## Estructura
 

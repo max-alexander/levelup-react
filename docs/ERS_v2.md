@@ -9,7 +9,7 @@
 | Versión | Cambios principales |
 |------|--------------------------------------------|
 | 1.0 | Tienda en HTML, CSS, JavaScript y Bootstrap: catálogo desde la API de RAWG, carrito, favoritos, login y administración en ventanas modales. |
-| 2.0 | Migración a React 18 (SPA con React Router), base de datos simulada en JS con CRUD, nuevas vistas (categorías, ofertas, checkout, pago exitoso/con error, blog, contacto, nosotros, registro) y panel de administración completo. Pruebas unitarias con Jasmine + Karma y reporte de cobertura. |
+| 2.0 | Catálogo ampliado a 48 juegos (16 por plataforma) con portadas incluidas en el proyecto. Migración a React 18 (SPA con React Router), base de datos simulada en JS con CRUD, nuevas vistas (categorías, ofertas, checkout, pago exitoso/con error, blog, contacto, nosotros, registro) y panel de administración completo. Pruebas unitarias con Jasmine + Karma y reporte de cobertura. |
 
 ---
 
@@ -24,7 +24,7 @@ LEVEL/UP es una tienda online de videojuegos para PlayStation, Xbox y Nintendo S
 - **Tienda pública:** catálogo con filtros, detalle de producto, categorías, ofertas, carrito, checkout con pasarela de pago simulada, registro e inicio de sesión, blog, contacto y nosotros.
 - **Panel de administración:** dashboard, órdenes y boletas, productos (CRUD, stock crítico y reportes), categorías, usuarios (CRUD e historial de compras), reportes de ventas y perfil.
 
-El backend es simulado por un módulo JavaScript (`src/data/db.js`) que persiste en `localStorage`. La integración con microservicios reales queda fuera del alcance de esta entrega.
+El backend es simulado por un módulo JavaScript (`src/data/db.js`) que persiste en `localStorage`. El catálogo inicial tiene 48 juegos con sus portadas guardadas en `public/assets/games/`, por lo que la tienda funciona sin conexión a internet. La integración con microservicios reales queda fuera del alcance de esta entrega.
 
 ### 1.3 Definiciones
 
@@ -117,7 +117,7 @@ db.js (colecciones CRUD) ──► localStorage          rawgService ──► A
 |------|--------------------------------------|----------|--------------|
 | RF-21 | Proteger `/admin/*`: sin sesión se redirige a login y un cliente se redirige al Home. | Alta | `ProtectedRoute` |
 | RF-22 | Dashboard con compras, productos/inventario, usuarios y accesos a cada módulo. | Alta | `Dashboard` |
-| RF-23 | Sincronizar desde la API de RAWG las portadas de los juegos sin imagen, informando cuántas se actualizaron y cuántas fallaron. | Media | `Dashboard`, `rawgService` |
+| RF-23 | Sincronizar desde la API de RAWG las portadas de los productos sin imagen (por ejemplo, los creados por el admin), informando cuántas se actualizaron y cuántas fallaron. | Media | `Dashboard`, `rawgService` |
 | RF-24 | Órdenes: listar con filtro por estado y mostrar la boleta con opción de imprimir. | Alta | `OrderList`, `OrderDetail` |
 | RF-25 | Productos: listar con búsqueda, crear, ver, editar y eliminar (con confirmación). Se validan título, categoría existente, plataforma, precio, stock, descuento, valoración, URL de imagen y descripción, y se impiden juegos duplicados en una misma plataforma. | Alta | `ProductList`, `ProductForm`, `ProductView` |
 | RF-26 | Listado de productos críticos (stock ≤ 5). | Media | `CriticalProducts` |
@@ -158,8 +158,8 @@ Order    { id, code, userId, status: 'pagada'|'rechazada', date, customer{name,l
 | RNF-03 | Calidad | Pruebas unitarias con Jasmine + Karma, con un umbral de cobertura configurado en Karma (statements 70%, branches 55%, functions 65%, lines 70%). Ver el documento de cobertura. |
 | RNF-04 | Accesibilidad | Labels asociados a cada input, `aria-invalid` y mensajes de error vinculados, `aria-label` en botones de ícono y navegación por teclado. |
 | RNF-05 | Seguridad (frontend) | La sesión nunca guarda la contraseña; las rutas de admin se protegen por rol; React escapa el contenido (no se usa `dangerouslySetInnerHTML`); las URLs de imagen se validan como http(s). |
-| RNF-06 | Rendimiento | Build de producción de unos 82 kB gzip de JS; imágenes con `loading="lazy"`; filtros memorizados con `useMemo`. |
-| RNF-07 | Robustez | Si la API de RAWG falla o una imagen no carga, se muestra un placeholder por plataforma; si `localStorage` contiene un JSON corrupto, se usan los datos semilla. |
+| RNF-06 | Rendimiento | Build de producción de unos 82 kB gzip de JS; portadas optimizadas (JPG de 330 px, ~30 kB cada una) con `loading="lazy"`; filtros memorizados con `useMemo`. |
+| RNF-07 | Robustez | Las portadas son locales y no dependen de servicios externos; si una imagen no carga o un producto no tiene portada, se muestra un placeholder por plataforma; si `localStorage` contiene un JSON corrupto, se usan los datos semilla. |
 
 ---
 
@@ -210,7 +210,7 @@ ADMINISTRADOR (/admin)
 ## 7. Criterios de aceptación
 
 1. `npm run dev` levanta la aplicación y todas las rutas de la sección 6 son navegables.
-2. `npm test` ejecuta 111 pruebas sin fallos y la cobertura supera los umbrales configurados.
+2. `npm test` ejecuta 112 pruebas sin fallos y la cobertura supera los umbrales configurados.
 3. Una compra con la tarjeta de prueba rechazada lleva a la vista de error, y al reintentar con una tarjeta válida se completa la compra.
 4. Los cambios del admin (stock, categorías, usuarios) se reflejan inmediatamente en la tienda.
 5. La tienda se ve correctamente en móvil, tablet y escritorio (capturas en `docs/capturas/`).

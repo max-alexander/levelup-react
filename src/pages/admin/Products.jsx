@@ -94,7 +94,7 @@ export function ProductView() {
       </PageHeader>
       <div className="surface-card p-0 overflow-hidden">
         <div className="row g-0">
-          <div className="col-md-5"><GameImage game={game} className="game-detail-image" /></div>
+          <div className="col-md-5"><GameImage game={game} className="game-detail-image" fit="contain" /></div>
           <div className="col-md-7 p-4">
             <span className="section-kicker">{game.category} · {game.platform}</span>
             <div className="my-2"><Stars rating={game.rating} /></div>

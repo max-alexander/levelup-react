@@ -8,7 +8,7 @@ import { useCollection } from '../../hooks/useCollection';
 import { db } from '../../data/db';
 import { DEFAULT_FILTERS, filterGames, paginate } from '../../utils/catalog';
 
-export const PAGE_SIZE = 9;
+export const PAGE_SIZE = 12;
 
 export default function Catalog() {
   const games = useCollection(db.games);

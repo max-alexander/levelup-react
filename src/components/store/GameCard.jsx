@@ -13,7 +13,7 @@ export default function GameCard({ game, onAddToCart, onToggleFavorite, isFavori
   return (
     <article className={`game-card ${layout === 'list' ? 'list-mode' : ''}`} data-testid="game-card">
       <div className="game-image-wrap">
-        <Link to={`/productos/${game.id}`} aria-label={`Ver ${game.title}`}><GameImage game={game} /></Link>
+        <Link to={`/productos/${game.id}`} aria-label={`Ver ${game.title}`}><GameImage game={game} fit="contain" /></Link>
         {onToggleFavorite && (
           <button
             type="button"
