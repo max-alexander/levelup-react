@@ -1,13 +1,13 @@
 # Especificación de Requisitos de Software (ERS) — v2
 
-**Proyecto:** LEVEL/UP — Tienda online de videojuegos
-**Asignatura:** DSY1104 Desarrollo Fullstack II — Evaluación Parcial 2
-**Versión:** 2.0 (migración a React + pruebas unitarias)
-**Fecha:** noviembre 2026
+**Proyecto:** LEVEL/UP — Tienda online de videojuegos\
+**Asignatura:** DSY1104 Desarrollo Fullstack II — Evaluación Parcial 2\
+**Versión:** 2.0 (migración a React + pruebas unitarias)\
+**Fecha:** noviembre 2026\
 **Formato:** basado en IEEE 830
 
 | Versión | Cambios principales |
-|---|---|
+|------|--------------------------------------------|
 | 1.0 | Tienda en HTML, CSS, JavaScript y Bootstrap: catálogo desde la API de RAWG, carrito, favoritos, login y administración en ventanas modales. |
 | 2.0 | Migración a React 18 (SPA con React Router), base de datos simulada en JS con CRUD, nuevas vistas (categorías, ofertas, checkout, pago exitoso/con error, blog, contacto, nosotros, registro) y panel de administración completo. Pruebas unitarias con Jasmine + Karma y reporte de cobertura. |
 
@@ -20,6 +20,7 @@ Este documento especifica los requisitos funcionales y no funcionales del fronte
 
 ### 1.2 Alcance
 LEVEL/UP es una tienda online de videojuegos para PlayStation, Xbox y Nintendo Switch. La versión 2 incluye:
+
 - **Tienda pública:** catálogo con filtros, detalle de producto, categorías, ofertas, carrito, checkout con pasarela de pago simulada, registro e inicio de sesión, blog, contacto y nosotros.
 - **Panel de administración:** dashboard, órdenes y boletas, productos (CRUD, stock crítico y reportes), categorías, usuarios (CRUD e historial de compras), reportes de ventas y perfil.
 
@@ -88,7 +89,7 @@ db.js (colecciones CRUD) ──► localStorage          rawgService ──► A
 ### 3.1 Tienda
 
 | ID | Requisito | Prioridad | Vista / componente |
-|---|---|---|---|
+|------|--------------------------------------|----------|--------------|
 | RF-01 | Mostrar en el Home un hero con video, las categorías con su conteo de juegos, los productos destacados y las entradas del blog. | Alta | `Home` |
 | RF-02 | Listar el catálogo con búsqueda por texto, filtros por plataforma y categoría, orden (destacados, valoración, precio, nombre), paginación de 9 por página y vista en cuadrícula o lista. | Alta | `Catalog`, `CatalogFilters`, `Pagination` |
 | RF-03 | Buscar desde el navbar y redirigir al catálogo con el término aplicado (`/productos?q=`). | Media | `Navbar` |
@@ -113,7 +114,7 @@ db.js (colecciones CRUD) ──► localStorage          rawgService ──► A
 ### 3.2 Administración
 
 | ID | Requisito | Prioridad | Vista / componente |
-|---|---|---|---|
+|------|--------------------------------------|----------|--------------|
 | RF-21 | Proteger `/admin/*`: sin sesión se redirige a login y un cliente se redirige al Home. | Alta | `ProtectedRoute` |
 | RF-22 | Dashboard con compras, productos/inventario, usuarios y accesos a cada módulo. | Alta | `Dashboard` |
 | RF-23 | Sincronizar desde la API de RAWG las portadas de los juegos sin imagen, informando cuántas se actualizaron y cuántas fallaron. | Media | `Dashboard`, `rawgService` |
@@ -129,7 +130,7 @@ db.js (colecciones CRUD) ──► localStorage          rawgService ──► A
 ### 3.3 Datos (archivo JS como base de datos)
 
 | ID | Requisito |
-|---|---|
+|------|------------------------------------------------------|
 | RF-32 | `db.js` expone las colecciones `games`, `categories`, `users` y `orders`, cada una con `getAll`, `getById`, `find`, `create`, `update`, `remove`, `replaceAll` y `reset`. |
 | RF-33 | Cada escritura persiste en `localStorage` y notifica a los suscriptores; el hook `useCollection` vuelve a renderizar los componentes en tiempo real. |
 | RF-34 | Las lecturas devuelven copias para que la interfaz no pueda mutar los datos almacenados por accidente. |
@@ -151,7 +152,7 @@ Order    { id, code, userId, status: 'pagada'|'rechazada', date, customer{name,l
 ## 4. Requisitos no funcionales
 
 | ID | Tipo | Requisito |
-|---|---|---|
+|-------|-----------|--------------------------------------------|
 | RNF-01 | Usabilidad / responsividad | La interfaz se adapta a móvil (< 576 px), tablet (768–991 px) y escritorio (≥ 992 px) con la grilla de Bootstrap: navbar colapsable con menú hamburguesa, catálogo de 1 a 3 columnas, filtros apilados en móvil y sidebar del admin convertible en menú. |
 | RNF-02 | Mantenibilidad | Componentes con responsabilidad única ("Single Responsibility"): presentacionales (`GameCard`, `GameList`) separados de los contenedores (`GameGrid`), y lógica pura (`cartReducer`, `validators`, `catalog`) aislada de la UI. |
 | RNF-03 | Calidad | Pruebas unitarias con Jasmine + Karma, con un umbral de cobertura configurado en Karma (statements 70%, branches 55%, functions 65%, lines 70%). Ver el documento de cobertura. |

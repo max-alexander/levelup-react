@@ -1,8 +1,8 @@
 # Documento de cobertura de testing
 
-**Proyecto:** LEVEL/UP — Tienda online de videojuegos (frontend React)
-**Asignatura:** DSY1104 Desarrollo Fullstack II — Evaluación Parcial 2
-**Herramientas:** Jasmine 5.5 · Karma 6.4 · Chrome Headless · babel-plugin-istanbul + karma-coverage · @testing-library/react
+**Proyecto:** LEVEL/UP — Tienda online de videojuegos (frontend React)\
+**Asignatura:** DSY1104 Desarrollo Fullstack II — Evaluación Parcial 2\
+**Herramientas:** Jasmine 5.5 · Karma 6.4 · Chrome Headless · babel-plugin-istanbul + karma-coverage · @testing-library/react\
 **Resultado:** **111 pruebas, 111 exitosas, 0 fallidas**, ejecutadas en unos 1,6 s
 
 ---
@@ -62,7 +62,7 @@ npm test
 
 ### 4.1 Pruebas de renderizado
 | Requisito | Prueba (describe › it) |
-|---|---|
+|--------------|------------------------------|
 | Renderizado correcto con los datos dados | GameCard › *renderiza los datos del juego recibido por props* |
 | **Tarea:** la lista renderiza todos los elementos | GameList › *renderiza una tarjeta por cada elemento del conjunto de datos* (18 de 18) |
 | | Catálogo › *pagina los productos y permite cambiar de página* |
@@ -70,20 +70,20 @@ npm test
 
 ### 4.2 Renderizado condicional
 | Requisito | Prueba |
-|---|---|
+|--------------|------------------------------|
 | **Tarea:** el mensaje de error solo aparece si hay error | AlertMessage › *no renderiza nada cuando no hay error* / *muestra el mensaje solo cuando hay un error* |
 | | Login › *muestra el mensaje de error que devuelve el servicio* (antes del submit no hay alerta) |
 | Otros | GameList › *muestra un estado vacío*; Pagination › *no se muestra con una sola página*; ConfirmModal › *se oculta con show=false*; GameImage › *usa placeholder si la imagen falla*; Navegación › *el admin ve el acceso al panel* |
 
 ### 4.3 Pruebas de props
 | Requisito | Prueba |
-|---|---|
+|--------------|------------------------------|
 | **Tarea:** el botón recibe la etiqueta y onClick | Button › *recibe la etiqueta y ejecuta la función onClick* / *aplica variante y no dispara onClick cuando está deshabilitado* |
 | El componente usa sus props | GameCard › *muestra precio tachado y badge en oferta*, *deshabilita la compra sin stock*, *el botón de favorito refleja el estado*; GameList › *cambia a vista de lista según la prop layout*; FormField › *asocia label e input y muestra el error* |
 
 ### 4.4 Pruebas de estado (state)
 | Requisito | Prueba |
-|---|---|
+|--------------|------------------------------|
 | **Tarea:** el estado del formulario cambia al escribir | Login › *el estado del formulario cambia cuando el usuario escribe*; Login › *el error desaparece cuando se corrige el campo* |
 | Estado derivado | Registro › *la lista de comunas depende de la región*; Checkout › *aplica máscaras a la tarjeta* |
 | Estado global (reducer) | cartReducer: 6 pruebas (agregar, límite de stock, setQuantity, cupón, inmutabilidad, clear) |
@@ -91,7 +91,7 @@ npm test
 
 ### 4.5 Pruebas de eventos
 | Requisito | Prueba |
-|---|---|
+|--------------|------------------------------|
 | **Tarea:** un clic cambia el estado o ejecuta una función | GameCard › *al hacer clic en "Agregar al carrito" ejecuta onAddToCart*; Navegación › *el contador del carrito se actualiza al agregar un producto*; Carrito › *suma, resta, aplica cupón y recalcula el total* |
 | Eventos de formularios | CatalogFilters › *emite los filtros actualizados al escribir y seleccionar*; Contacto › *valida y confirma el envío*; Admin › *crea / edita / elimina un producto* |
 | Eventos de navegación | Navegación › *el buscador navega al catálogo*, *cerrar sesión*; Pago con error › *volver a realizar el pago* |
@@ -101,7 +101,7 @@ npm test
 ## 5. Uso de mocks
 
 | Dependencia reemplazada | Técnica de Jasmine | Para qué |
-|---|---|---|
+|----------|--------------|--------------------|
 | `paymentGateway.charge` (pasarela de pago) | `spyOn(...).and.returnValue({ approved })` y `.and.returnValues(...)` | Forzar un pago aprobado o rechazado y probar el reintento sin depender de la tarjeta. |
 | `window.fetch` (API RAWG) | `spyOn(window, 'fetch').and.returnValue(Promise)` y `jasmine.createSpy().and.callFake(...)` | Simular respuestas OK, errores HTTP 500, red caída y resultados vacíos. |
 | `rawgService.syncCovers` | `spyOn(...).and.returnValue(Promise.resolve/reject)` | Probar la notificación del Dashboard en los casos de éxito y de error. |
@@ -155,6 +155,7 @@ El detalle por archivo está en `docs/evidencias/coverage.txt`; el reporte HTML 
 ## 7. Análisis de resultados
 
 **Fortalezas**
+
 - La lógica de negocio crítica (precios con oferta, cupón, stock, pago aprobado/rechazado/reintento y CRUD) supera el 95% de cobertura.
 - Los flujos completos de usuario (registro → login → carrito → checkout → pago) se prueban integrados con el router y los Context reales. Solo se reemplazan las dependencias externas.
 - Cada prueba es independiente: parte de los datos semilla y no depende del orden de ejecución.
@@ -162,7 +163,7 @@ El detalle por archivo está en `docs/evidencias/coverage.txt`; el reporte HTML 
 **Brechas identificadas y justificación**
 
 | Archivo | Líneas sin cubrir | Motivo / acción propuesta |
-|---|---|---|
+|----------|------------|------------------------------|
 | `AdminLayout.jsx` (57%) | Toggle del menú móvil y logout del sidebar | Comportamiento visual en móvil. Propuesta: agregar una prueba de clic en el toggle y en "Cerrar sesión". |
 | `GameGrid.jsx` (59%) | Aviso de "Stock máximo" desde la tarjeta | El límite de stock está probado en el reducer y en el detalle, pero no el toast desde el grid. |
 | `Products.jsx` (61%) | `ProductReports` y la ficha de un producto inexistente | Vistas de solo lectura. Propuesta: prueba de render del reporte. |
