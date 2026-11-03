@@ -1,5 +1,5 @@
 import { screen, fireEvent, waitFor, within } from '@testing-library/react';
-import { renderApp, currentPath } from '../../test/helpers';
+import { renderApp, renderAdmin, currentPath } from '../../test/helpers';
 
 describe('Navegación y rutas protegidas', () => {
   it('el navbar muestra login/registro sin sesión y el contador del carrito en 0', () => {
@@ -16,10 +16,12 @@ describe('Navegación y rutas protegidas', () => {
     expect(screen.getByTestId('cart-count').textContent).toBe('1');
   });
 
-  it('el buscador del navbar navega al catálogo con el término', () => {
+  it('el buscador del navbar navega al catálogo con el término (Enter sin sugerencia elegida)', () => {
     renderApp('/');
-    fireEvent.change(screen.getByLabelText('Buscar en la tienda'), { target: { value: 'halo' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Buscar' }));
+    fireEvent.click(screen.getAllByRole('button', { name: 'Abrir búsqueda' })[0]);
+    const input = screen.getByRole('combobox', { name: 'Buscar en la tienda' });
+    fireEvent.change(input, { target: { value: 'halo' } });
+    fireEvent.keyDown(input, { key: 'Enter' });
     expect(currentPath(screen)).toBe('/productos?q=halo');
     expect(screen.getByRole('heading', { name: 'Halo Infinite' })).toBeTruthy();
   });
@@ -40,8 +42,8 @@ describe('Navegación y rutas protegidas', () => {
     expect(currentPath(screen)).toBe('/');
   });
 
-  it('el administrador accede al dashboard', () => {
-    renderApp('/admin', { as: 'admin' });
+  it('el administrador accede al dashboard (panel cargado con React.lazy)', async () => {
+    await renderAdmin('/admin');
     expect(screen.getByRole('heading', { name: 'Dashboard' })).toBeTruthy();
     expect(screen.getByText('Compras')).toBeTruthy();
   });

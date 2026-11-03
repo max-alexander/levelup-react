@@ -67,46 +67,79 @@ describe('Carrito', () => {
   });
 });
 
-describe('Checkout (mock de la pasarela de pago)', () => {
-  const fillPayment = container => {
-    fill(container, 'cardName', 'Usuario Cliente');
-    fill(container, 'cardNumber', '4111111111111111');
-    fill(container, 'cardExpiry', '1230');
-    fill(container, 'cardCvv', '123');
+describe('Checkout por pasos (stepper + mock de la pasarela de pago)', () => {
+  const form = () => document.querySelector('form.checkout-card');
+  const goToCheckout = (as, times = 1) => {
+    renderApp('/productos/1', as ? { as } : undefined);
+    addFromDetail(1, times);
+    fireEvent.click(screen.getByRole('link', { name: 'Carrito' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Comprar ahora' }));
+  };
+  const continuar = () => fireEvent.click(screen.getByRole('button', { name: /Continuar/ }));
+  const currentStep = () => document.querySelector('[aria-current="step"]').textContent;
+  const fillPayment = () => {
+    fill(form(), 'cardName', 'Usuario Cliente');
+    fill(form(), 'cardNumber', '4111111111111111');
+    fill(form(), 'cardExpiry', '1230');
+    fill(form(), 'cardCvv', '123');
   };
 
-  it('autocompleta los datos del cliente si hay sesión iniciada', () => {
-    renderApp('/productos/1', { as: 'user' });
-    addFromDetail(1);
-    fireEvent.click(screen.getByRole('link', { name: 'Carrito' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Comprar ahora' }));
+  it('empieza en el paso 1 y autocompleta los datos si hay sesión', () => {
+    goToCheckout('user');
     expect(currentPath(screen)).toBe('/checkout');
-    const form = document.querySelector('form.checkout-card');
-    expect(form.querySelector('[name="email"]').value).toBe('user@game.com');
-    expect(form.querySelector('[name="comuna"]').value).toBe('Ñuñoa');
-    expect(form.querySelector('[name="cardNumber"]').value).toBe('');
+    expect(currentStep()).toContain('Datos');
+    expect(form().querySelector('[name="email"]').value).toBe('user@game.com');
+    expect(form().querySelector('[name="cardNumber"]')).toBeNull(); // el paso de pago aún no se muestra
+    expect(screen.getByTestId('checkout-total').textContent.replace(/\s/g, '')).toBe('$59.990');
   });
 
-  it('aplica máscaras a la tarjeta y muestra errores si faltan datos', () => {
-    renderApp('/productos/1');
-    addFromDetail(1);
-    fireEvent.click(screen.getByRole('link', { name: 'Carrito' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Comprar ahora' }));
-    const form = document.querySelector('form.checkout-card');
-    expect(fill(form, 'cardNumber', '4111abc111111111111111').value).toBe('4111 1111 1111 1111');
-    expect(fill(form, 'cardExpiry', '1230').value).toBe('12/30');
+  it('no avanza de paso si los campos del paso actual son inválidos', () => {
+    goToCheckout();
+    continuar();
+    expect(currentStep()).toContain('Datos');
+    expect(screen.getByText('El nombre es obligatorio.')).toBeTruthy();
+    expect(screen.getByText('El correo es obligatorio.')).toBeTruthy();
+    // Solo se validan los campos del paso visible: no hay errores del paso de envío.
+    expect(screen.queryByText('Ingresa calle y número (mín. 5 caracteres).')).toBeNull();
+  });
+
+  it('avanza con datos válidos, vuelve atrás sin perder lo escrito y permite saltar a un paso completado', () => {
+    goToCheckout();
+    fill(form(), 'name', 'Ana');
+    fill(form(), 'lastName', 'Pérez');
+    fill(form(), 'email', 'ana@mail.cl');
+    continuar();
+    expect(currentStep()).toContain('Envío');
+    fireEvent.click(screen.getByRole('button', { name: /Atrás/ }));
+    expect(form().querySelector('[name="name"]').value).toBe('Ana');
+    continuar();
+    fill(form(), 'street', 'Av. Siempre Viva 742');
+    fill(form(), 'region', 'Biobío');
+    fill(form(), 'comuna', 'Concepción');
+    continuar();
+    expect(currentStep()).toContain('Pago');
+    expect(document.querySelector('.checkout-review').textContent).toContain('Av. Siempre Viva 742');
+    fireEvent.click(screen.getByRole('button', { name: 'Volver al paso 1: Datos' }));
+    expect(currentStep()).toContain('Datos');
+  });
+
+  it('aplica máscaras a la tarjeta y exige datos de pago válidos', () => {
+    goToCheckout('user');
+    continuar();
+    continuar();
+    expect(fill(form(), 'cardNumber', '4111abc111111111111111').value).toBe('4111 1111 1111 1111');
+    expect(fill(form(), 'cardExpiry', '1230').value).toBe('12/30');
     fireEvent.click(screen.getByRole('button', { name: /Pagar ahora/ }));
     expect(screen.getByText('Revisa los campos marcados en rojo.')).toBeTruthy();
-    expect(screen.getByText('Ingresa calle y número (mín. 5 caracteres).')).toBeTruthy();
+    expect(screen.getByText('Ingresa el nombre del titular.')).toBeTruthy();
   });
 
   it('pago aprobado → vista de compra exitosa, carrito vacío y stock descontado', () => {
     const charge = spyOn(paymentGateway, 'charge').and.returnValue({ approved: true, authorization: 'AUT-123' });
-    renderApp('/productos/1', { as: 'user' });
-    addFromDetail(1, 2);
-    fireEvent.click(screen.getByRole('link', { name: 'Carrito' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Comprar ahora' }));
-    fillPayment(document.querySelector('form.checkout-card'));
+    goToCheckout('user', 2);
+    continuar();
+    continuar();
+    fillPayment();
     fireEvent.click(screen.getByRole('button', { name: /Pagar ahora/ }));
 
     expect(charge).toHaveBeenCalledTimes(1);
@@ -116,13 +149,12 @@ describe('Checkout (mock de la pasarela de pago)', () => {
     expect(db.games.getById(1).stock).toBe(12);
   });
 
-  it('pago rechazado → vista de error y "volver a realizar el pago" conserva los datos', () => {
+  it('pago rechazado → vista de error; reintentar abre directo el paso de pago con los datos guardados', () => {
     spyOn(paymentGateway, 'charge').and.returnValue({ approved: false, message: 'Fondos insuficientes.' });
-    renderApp('/productos/1', { as: 'user' });
-    addFromDetail(1);
-    fireEvent.click(screen.getByRole('link', { name: 'Carrito' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Comprar ahora' }));
-    fillPayment(document.querySelector('form.checkout-card'));
+    goToCheckout('user');
+    continuar();
+    continuar();
+    fillPayment();
     fireEvent.click(screen.getByRole('button', { name: /Pagar ahora/ }));
 
     expect(currentPath(screen)).toMatch(/^\/compra\/error\/\d+$/);
@@ -133,6 +165,7 @@ describe('Checkout (mock de la pasarela de pago)', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'VOLVER A REALIZAR EL PAGO' }));
     expect(currentPath(screen)).toMatch(/^\/checkout\?reintento=\d+$/);
-    expect(document.querySelector('[name="street"]').value).toBe('Los Crisantemos 742');
+    expect(currentStep()).toContain('Pago');
+    expect(document.querySelector('.checkout-review').textContent).toContain('Los Crisantemos 742');
   });
 });

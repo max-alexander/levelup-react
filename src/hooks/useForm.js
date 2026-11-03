@@ -27,5 +27,16 @@ export function useForm(initialValues, rules) {
     return Object.keys(found).length === 0;
   };
 
-  return { values, setValues, errors, setErrors, handleChange, validate };
+  /** Valida solo algunos campos (por ejemplo, los de un paso del checkout). */
+  const validateFields = fields => {
+    const subset = Object.fromEntries(fields.filter(field => rules[field]).map(field => [field, rules[field]]));
+    const found = runValidators(values, subset);
+    setErrors(current => {
+      const kept = Object.fromEntries(Object.entries(current).filter(([field]) => !fields.includes(field)));
+      return { ...kept, ...found };
+    });
+    return Object.keys(found).length === 0;
+  };
+
+  return { values, setValues, errors, setErrors, handleChange, validate, validateFields };
 }

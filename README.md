@@ -2,6 +2,13 @@
 
 Entrega 2 de **DSY1104 Desarrollo Fullstack II**. Migración de la tienda LEVEL/UP (HTML + JS + Bootstrap, entrega 1) a una SPA en **React 18**, con **Bootstrap 5** responsivo, base de datos simulada en JavaScript con CRUD y persistencia en `localStorage`, y pruebas unitarias con **Jasmine + Karma**.
 
+## Mejoras sobre la propuesta base
+
+- **Checkout por pasos** (Datos → Envío → Pago) con validación por paso y resumen del pedido siempre visible.
+- **Reseñas de clientes** con estrellas interactivas, promedio en vivo y moderación en el admin.
+- **Buscador con sugerencias** (portada, precio, teclado) y **filtro por rango de precio**.
+- **Tema claro/oscuro** guardado entre visitas y **panel admin cargado bajo demanda** (`React.lazy`).
+
 ## Requisitos
 
 - Node.js 18 o superior (probado con Node 24)
@@ -60,7 +67,7 @@ docs/              ERS v2, documento de cobertura de testing, capturas y evidenc
 
 **Tienda (pública):** `/`, `/productos`, `/productos/:id`, `/categorias`, `/categorias/:nombre`, `/ofertas`, `/carrito`, `/checkout`, `/compra/exitosa/:id`, `/compra/error/:id`, `/login`, `/registro`, `/nosotros`, `/blogs`, `/blogs/:slug`, `/contacto`, `/favoritos`, `/mi-cuenta` (requiere sesión).
 
-**Administrador (rol admin):** `/admin`, `/admin/ordenes`, `/admin/ordenes/:id` (boleta), `/admin/productos`, `/admin/productos/nuevo`, `/admin/productos/:id`, `/admin/productos/:id/editar`, `/admin/productos/criticos`, `/admin/productos/reportes`, `/admin/categorias`, `/admin/categorias/nueva`, `/admin/categorias/:id/editar`, `/admin/usuarios`, `/admin/usuarios/nuevo`, `/admin/usuarios/:id`, `/admin/usuarios/:id/editar`, `/admin/usuarios/:id/historial`, `/admin/reportes`, `/admin/perfil`.
+**Administrador (rol admin):** `/admin`, `/admin/ordenes`, `/admin/ordenes/:id` (boleta), `/admin/productos`, `/admin/productos/nuevo`, `/admin/productos/:id`, `/admin/productos/:id/editar`, `/admin/productos/criticos`, `/admin/productos/reportes`, `/admin/categorias`, `/admin/categorias/nueva`, `/admin/categorias/:id/editar`, `/admin/usuarios`, `/admin/usuarios/nuevo`, `/admin/usuarios/:id`, `/admin/usuarios/:id/editar`, `/admin/usuarios/:id/historial`, `/admin/resenas`, `/admin/reportes`, `/admin/perfil`.
 
 ## Documentación
 

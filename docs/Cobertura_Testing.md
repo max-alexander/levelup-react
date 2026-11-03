@@ -3,7 +3,7 @@
 **Proyecto:** LEVEL/UP — Tienda online de videojuegos (frontend React)\
 **Asignatura:** DSY1104 Desarrollo Fullstack II — Evaluación Parcial 2\
 **Herramientas:** Jasmine 5.5 · Karma 6.4 · Chrome Headless · babel-plugin-istanbul + karma-coverage · @testing-library/react\
-**Resultado:** **112 pruebas, 112 exitosas, 0 fallidas**, ejecutadas en unos 2 s
+**Resultado:** **135 pruebas, 135 exitosas, 0 fallidas**, ejecutadas en unos 2,5 s
 
 ---
 
@@ -38,6 +38,8 @@ npm test
 
 **Umbrales configurados** (`coverageReporter.check.global`): statements 70%, branches 55%, functions 65%, lines 70%. Si la cobertura baja de estos valores, `npm test` falla.
 
+**Pruebas asíncronas:** el panel admin se carga con `React.lazy`. En Karma, `LimitChunkCountPlugin` lo empaqueta en el mismo bundle, y el helper `renderAdmin()` espera con `await screen.findByRole(...)` a que termine de cargar antes de verificar.
+
 **Aislamiento:** cada prueba parte de los datos semilla, porque `localStorage.clear()` y `resetDatabase()` se ejecutan en el `beforeEach` global. Los spies de Jasmine se restauran automáticamente al terminar cada `it`.
 
 ---
@@ -55,6 +57,8 @@ npm test
 | Navegación | Rutas protegidas y navbar | `components/layout/navigation.spec.jsx` |
 | Páginas de la tienda | Estado de formularios y flujos | `pages/store/auth.spec.jsx`, `shopping.spec.jsx`, `content.spec.jsx` |
 | Panel admin | CRUD desde la UI y mocks de API | `pages/admin/admin.spec.jsx` |
+| Reseñas | Lógica, componentes e integración | `components/store/reviews.spec.jsx` |
+| Buscador, precio y tema | Sugerencias, teclado y Context | `components/layout/search-theme.spec.jsx` |
 
 ---
 
@@ -96,6 +100,15 @@ npm test
 | Eventos de formularios | CatalogFilters › *emite los filtros actualizados al escribir y seleccionar*; Contacto › *valida y confirma el envío*; Admin › *crea / edita / elimina un producto* |
 | Eventos de navegación | Navegación › *el buscador navega al catálogo*, *cerrar sesión*; Pago con error › *volver a realizar el pago* |
 
+### 4.6 Pruebas de las mejoras sobre la propuesta base
+| Mejora | Pruebas |
+|--------------|------------------------------|
+| Checkout por pasos | *no avanza si los campos del paso son inválidos* (y no muestra errores de pasos siguientes); *vuelve atrás sin perder lo escrito y salta a un paso completado*; *reintentar abre directo el paso de pago* |
+| Reseñas | reviewService: *promedio y distribución*, *valida estrellas y largo*, *impide reseñar dos veces*; StarRatingInput: *clic*, *flechas del teclado*, *hover*; ReviewForm: *valida antes de enviar y llama a onSubmit*; integración: *el promedio se actualiza en vivo*; admin: *modera una reseña* |
+| Buscador con sugerencias | suggestGames: *prioriza títulos que empiezan con el texto*; SearchBox: *muestra sugerencias y Esc las cierra*, *flechas + Enter abren el detalle*, *ver todos los resultados* |
+| Filtro de precio | *filtra por rango usando el precio con descuento*; *el catálogo filtra desde el selector* |
+| Tema y carga diferida | ThemeContext: *aplica el tema guardado y alterna*, *oscuro por defecto*; *el panel se carga con React.lazy* (todas las pruebas de admin esperan su carga) |
+
 ---
 
 ## 5. Uso de mocks
@@ -118,8 +131,8 @@ Los servicios se exportan como **objetos** (`authService`, `paymentGateway`, `ra
 
 ### 6.1 Ejecución
 ```
-Chrome Headless 156.0.0.0 (Windows 10): Executed 112 of 112 SUCCESS (2.0 secs)
-TOTAL: 112 SUCCESS
+Chrome Headless 156.0.0.0 (Windows 10): Executed 135 of 135 SUCCESS (2.5 secs)
+TOTAL: 135 SUCCESS
 ```
 El log completo está en `docs/evidencias/karma-run.txt`.
 
@@ -127,25 +140,25 @@ El log completo está en `docs/evidencias/karma-run.txt`.
 
 | Métrica | Cubierto | Total | % | Umbral |
 |---|---|---|---|---|
-| Statements | 944 | 1043 | **90,50%** | 70% ✔ |
-| Branches | 618 | 749 | **82,51%** | 55% ✔ |
-| Functions | 356 | 413 | **86,19%** | 65% ✔ |
-| Lines | 797 | 863 | **92,35%** | 70% ✔ |
+| Statements | 1170 | 1287 | **90,91%** | 70% ✔ |
+| Branches | 785 | 940 | **83,51%** | 55% ✔ |
+| Functions | 438 | 507 | **86,39%** | 65% ✔ |
+| Lines | 976 | 1054 | **92,59%** | 70% ✔ |
 
 ### 6.3 Cobertura por módulo (statements / branches / lines)
 
 | Módulo | Stmts | Branch | Lines | Comentario |
 |---|---|---|---|---|
-| `src/hooks` | 100% | 100% | 100% | `useCollection` y `useForm`, cubiertos de forma indirecta por las páginas. |
-| `src/services` | 98,9% | 93,4% | 100% | Reglas de compra, auth y RAWG, todas con mocks. |
+| `src/hooks` | 97,1% | 100% | 100% | `useCollection` y `useForm`, cubiertos de forma indirecta por las páginas. |
+| `src/services` | 98,4% | 92,9% | 100% | Reglas de compra, auth y RAWG, todas con mocks. |
 | `src/data` | 98,6% | 94,1% | 98,2% | CRUD completo, suscripción y JSON corrupto. |
-| `src/components/common` | 96,8% | 92,9% | 96,0% | Componentes reutilizables. |
-| `src/utils` | 98,2% | 84,9% | 98,0% | Validadores y catálogo. |
-| `src/context` | 93,4% | 79,6% | 97,5% | Reducer y providers. |
-| `src/components/layout` | 91,7% | 80,0% | 93,5% | Navbar y layout. |
-| `src/pages/store` | 90,7% | 77,6% | 90,9% | Flujos de compra, auth y contenido. |
-| `src/components/store` | 85,1% | 80,3% | 85,4% | — |
-| `src/pages/admin` | 80,9% | 72,3% | 85,4% | CRUD admin. |
+| `src/components/common` | 97,1% | 94,6% | 96,6% | Componentes reutilizables. |
+| `src/utils` | 98,5% | 85,3% | 98,3% | Validadores y catálogo. |
+| `src/context` | 94,2% | 79,3% | 97,8% | Reducer y providers. |
+| `src/components/layout` | 84,6% | 75,0% | 87,1% | Navbar y layout. |
+| `src/pages/store` | 90,3% | 80,7% | 90,6% | Flujos de compra, auth y contenido. |
+| `src/components/store` | 90,8% | 84,9% | 90,6% | — |
+| `src/pages/admin` | 82,1% | 72,1% | 86,3% | CRUD admin. |
 | `src/components/admin` | 57,1% | 75,0% | 70,0% | Menú móvil del sidebar y botón de logout sin pruebas. |
 
 El detalle por archivo está en `docs/evidencias/coverage.txt`; el reporte HTML navegable se genera en `coverage/html/index.html`.
@@ -165,6 +178,7 @@ El detalle por archivo está en `docs/evidencias/coverage.txt`; el reporte HTML 
 | Archivo | Líneas sin cubrir | Motivo / acción propuesta |
 |----------|------------|------------------------------|
 | `AdminLayout.jsx` (57%) | Toggle del menú móvil y logout del sidebar | Comportamiento visual en móvil. Propuesta: agregar una prueba de clic en el toggle y en "Cerrar sesión". |
+| `SearchBox.jsx` (83%) | Navegación con flecha hacia arriba y Esc con el campo vacío | Propuesta: pruebas de teclado adicionales. |
 | `GameGrid.jsx` (59%) | Aviso de "Stock máximo" desde la tarjeta | El límite de stock está probado en el reducer y en el detalle, pero no el toast desde el grid. |
 | `Products.jsx` (61%) | `ProductReports` y la ficha de un producto inexistente | Vistas de solo lectura. Propuesta: prueba de render del reporte. |
 | `Users.jsx` / `Categories.jsx` admin (74–77%) | Ramas de error (correo o nombre duplicado) | Propuesta: pruebas de validación de duplicados. |

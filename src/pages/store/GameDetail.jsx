@@ -5,6 +5,8 @@ import Stars from '../../components/common/Stars';
 import PriceTag from '../../components/common/PriceTag';
 import EmptyState from '../../components/common/EmptyState';
 import GameGrid from '../../components/store/GameGrid';
+import ProductReviews from '../../components/store/Reviews';
+import { reviewService, summarizeReviews } from '../../services/reviewService';
 import { useCollection } from '../../hooks/useCollection';
 import { useCart } from '../../context/CartContext';
 import { useFavorites } from '../../context/FavoritesContext';
@@ -15,6 +17,7 @@ import { stockStatus } from '../../utils/format';
 export default function GameDetail() {
   const { id } = useParams();
   const games = useCollection(db.games);
+  const reviews = useCollection(db.reviews);
   const game = games.find(item => String(item.id) === id);
   const cart = useCart();
   const favorites = useFavorites();
@@ -34,6 +37,7 @@ export default function GameDetail() {
   const inCart = cart.lines.find(line => line.id === game.id)?.quantity ?? 0;
   const available = Math.max(0, game.stock - inCart);
   const stock = stockStatus(game.stock);
+  const reviewCount = summarizeReviews(reviewService.byGame(game.id, reviews)).count;
   const related = games.filter(item => item.category === game.category && item.id !== game.id).slice(0, 3);
 
   const add = () => {
@@ -63,7 +67,7 @@ export default function GameDetail() {
             <div className="detail-content">
               <span className="section-kicker">{game.category} · {game.platform}</span>
               <h1 className="detail-title mt-2">{game.title}</h1>
-              <div className="my-3"><Stars rating={game.rating} /></div>
+              <div className="my-3 d-flex align-items-center gap-3 flex-wrap"><Stars rating={game.rating} /><a href="#reviews-title" className="small">{reviewCount} {reviewCount === 1 ? 'reseña' : 'reseñas'}</a></div>
               <p className="text-secondary">{game.description}</p>
               <div className="d-flex justify-content-between align-items-end my-4">
                 <PriceTag game={game} />
@@ -85,6 +89,7 @@ export default function GameDetail() {
           </div>
         </div>
       </div>
+      <ProductReviews gameId={game.id} />
       {related.length > 0 && (
         <section>
           <h3 className="mb-3">También te puede gustar</h3>

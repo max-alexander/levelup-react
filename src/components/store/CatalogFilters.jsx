@@ -1,4 +1,5 @@
 import { PLATFORMS } from '../../data/seed';
+import { PRICE_RANGES } from '../../utils/catalog';
 
 /** Filtros controlados: el estado vive en el componente padre y llega por props. */
 export default function CatalogFilters({ filters, categories, onChange, onReset }) {
@@ -16,6 +17,9 @@ export default function CatalogFilters({ filters, categories, onChange, onReset 
       <select className="form-select" aria-label="Categoría" value={filters.category} onChange={update('category')}>
         <option value="all">Todas las categorías</option>
         {categories.map(category => <option key={category} value={category}>{category}</option>)}
+      </select>
+      <select className="form-select" aria-label="Precio" value={filters.price ?? 'all'} onChange={update('price')}>
+        {PRICE_RANGES.map(range => <option key={range.value} value={range.value}>{range.label}</option>)}
       </select>
       <select className="form-select" aria-label="Ordenar" value={filters.sort} onChange={update('sort')}>
         <option value="featured">Destacados</option>

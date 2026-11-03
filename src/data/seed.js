@@ -105,6 +105,14 @@ export const SEED_ORDERS = [
   }
 ];
 
+export const SEED_REVIEWS = [
+  { id: 1, gameId: 11, userId: 2, userName: 'Usuario C.', rating: 5, comment: 'La libertad para construir y explorar es increíble. Cada isla del cielo esconde algo nuevo.', date: '2026-10-04T18:30:00.000Z' },
+  { id: 2, gameId: 11, userId: 1, userName: 'Administrador S.', rating: 4, comment: 'Excelente secuela, aunque algunas zonas del subsuelo se sienten repetitivas.', date: '2026-10-12T21:10:00.000Z' },
+  { id: 3, gameId: 1, userId: 2, userName: 'Usuario C.', rating: 5, comment: 'La historia entre Kratos y Atreus es lo mejor de la saga. El combate es muy satisfactorio.', date: '2026-10-18T14:00:00.000Z' },
+  { id: 4, gameId: 24, userId: 1, userName: 'Administrador S.', rating: 5, comment: 'Divertido de principio a fin y lleno de guiños a PlayStation. Ideal para jugar en familia.', date: '2026-10-20T16:45:00.000Z' },
+  { id: 5, gameId: 15, userId: 2, userName: 'Usuario C.', rating: 4, comment: 'Difícil pero justo. El mapa es enorme y la música acompaña muy bien.', date: '2026-10-22T23:05:00.000Z' }
+];
+
 export const BLOG_POSTS = [
   {
     id: 1, slug: 'guia-elegir-consola', title: 'Guía: ¿qué consola elegir en 2026?', date: '2026-09-12', author: 'Equipo LEVEL/UP',

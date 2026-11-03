@@ -10,11 +10,11 @@ import { isCritical } from '../../utils/catalog';
 import { formatMoney } from '../../utils/format';
 
 const MODULES = [
-  { to: '/admin', icon: 'fa-gauge', title: 'Dashboard', text: 'Visión general de las métricas clave del sistema.' },
   { to: '/admin/ordenes', icon: 'fa-receipt', title: 'Órdenes', text: 'Gestión y seguimiento de las órdenes de compra.' },
   { to: '/admin/productos', icon: 'fa-gamepad', title: 'Productos', text: 'Inventario y detalle de los productos disponibles.' },
   { to: '/admin/categorias', icon: 'fa-tags', title: 'Categorías', text: 'Organiza los productos para facilitar la navegación.' },
   { to: '/admin/usuarios', icon: 'fa-users', title: 'Usuarios', text: 'Cuentas de usuario, roles e historial de compras.' },
+  { to: '/admin/resenas', icon: 'fa-star', title: 'Reseñas', text: 'Modera las opiniones que publican los clientes.' },
   { to: '/admin/reportes', icon: 'fa-chart-line', title: 'Reportes', text: 'Informes sobre ventas y operaciones del sistema.' },
   { to: '/admin/perfil', icon: 'fa-user', title: 'Perfil', text: 'Información personal y configuración de la cuenta.' },
   { to: '/', icon: 'fa-store', title: 'Tienda', text: 'Visualiza la tienda tal como la ven los clientes.' }

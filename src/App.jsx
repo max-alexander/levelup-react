@@ -1,10 +1,11 @@
+import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { FavoritesProvider } from './context/FavoritesContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { ToastProvider } from './context/ToastContext';
 import StoreLayout from './components/layout/StoreLayout';
-import AdminLayout from './components/admin/AdminLayout';
 import ProtectedRoute from './components/common/ProtectedRoute';
 
 import Home from './pages/store/Home';
@@ -24,15 +25,20 @@ import Contact from './pages/store/Contact';
 import Account from './pages/store/Account';
 import NotFound from './pages/store/NotFound';
 
-import Dashboard from './pages/admin/Dashboard';
-import { OrderDetail, OrderList } from './pages/admin/Orders';
-import { CriticalProducts, ProductList, ProductReports, ProductView } from './pages/admin/Products';
-import ProductForm from './pages/admin/ProductForm';
-import { CategoryForm, CategoryList } from './pages/admin/Categories';
-import { UserForm, UserList, UserView } from './pages/admin/Users';
-import Reports from './pages/admin/Reports';
+// Carga diferida (code splitting): el panel admin es un archivo JS aparte que solo
+// se descarga cuando un administrador entra a /admin.
+const AdminApp = lazy(() => import('./pages/admin/AdminApp'));
 
 export const ROUTER_FUTURE = { v7_startTransition: true, v7_relativeSplatPath: true };
+
+export function PageLoader() {
+  return (
+    <div className="page-loader" role="status">
+      <span className="spinner-border" aria-hidden="true" />
+      <span>Cargando panel…</span>
+    </div>
+  );
+}
 
 export function AppRoutes() {
   return (
@@ -59,41 +65,32 @@ export function AppRoutes() {
         <Route path="*" element={<NotFound />} />
       </Route>
 
-      <Route path="admin" element={<ProtectedRoute role="admin"><AdminLayout /></ProtectedRoute>}>
-        <Route index element={<Dashboard />} />
-        <Route path="ordenes" element={<OrderList />} />
-        <Route path="ordenes/:id" element={<OrderDetail />} />
-        <Route path="productos" element={<ProductList />} />
-        <Route path="productos/nuevo" element={<ProductForm />} />
-        <Route path="productos/criticos" element={<CriticalProducts />} />
-        <Route path="productos/reportes" element={<ProductReports />} />
-        <Route path="productos/:id" element={<ProductView />} />
-        <Route path="productos/:id/editar" element={<ProductForm />} />
-        <Route path="categorias" element={<CategoryList />} />
-        <Route path="categorias/nueva" element={<CategoryForm />} />
-        <Route path="categorias/:id/editar" element={<CategoryForm />} />
-        <Route path="usuarios" element={<UserList />} />
-        <Route path="usuarios/nuevo" element={<UserForm />} />
-        <Route path="usuarios/:id" element={<UserView />} />
-        <Route path="usuarios/:id/editar" element={<UserForm />} />
-        <Route path="usuarios/:id/historial" element={<UserView historyOnly />} />
-        <Route path="reportes" element={<Reports />} />
-        <Route path="perfil" element={<Account admin />} />
-      </Route>
+      <Route
+        path="admin/*"
+        element={(
+          <ProtectedRoute role="admin">
+            <Suspense fallback={<PageLoader />}>
+              <AdminApp />
+            </Suspense>
+          </ProtectedRoute>
+        )}
+      />
     </Routes>
   );
 }
 
-/** Proveedores globales: sesión, carrito, favoritos y notificaciones. */
+/** Proveedores globales: tema, sesión, carrito, favoritos y notificaciones. */
 export function AppProviders({ children }) {
   return (
-    <ToastProvider>
-      <AuthProvider>
-        <FavoritesProvider>
-          <CartProvider>{children}</CartProvider>
-        </FavoritesProvider>
-      </AuthProvider>
-    </ToastProvider>
+    <ThemeProvider>
+      <ToastProvider>
+        <AuthProvider>
+          <FavoritesProvider>
+            <CartProvider>{children}</CartProvider>
+          </FavoritesProvider>
+        </AuthProvider>
+      </ToastProvider>
+    </ThemeProvider>
   );
 }
 

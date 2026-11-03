@@ -1,13 +1,14 @@
 // Configuración del entorno de pruebas: Karma (runner) + Jasmine (framework)
 // Webpack + Babel transpilan JSX; babel-plugin-istanbul instrumenta el código para la cobertura.
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = function (config) {
   config.set({
     frameworks: ['jasmine', 'webpack'],
     files: [
       { pattern: 'src/test/index.spec.js', watched: false },
-      { pattern: 'public/assets/*', included: false, served: true, watched: false }
+      { pattern: 'public/assets/**/*', included: false, served: true, watched: false }
     ],
     proxies: { '/assets/': '/base/public/assets/' },
     preprocessors: { 'src/test/index.spec.js': ['webpack'] },
@@ -16,6 +17,8 @@ module.exports = function (config) {
       mode: 'development',
       devtool: 'inline-source-map',
       resolve: { extensions: ['.js', '.jsx'] },
+      // React.lazy genera chunks aparte; en pruebas se empaquetan en un solo bundle.
+      plugins: [new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 })],
       module: {
         rules: [
           {

@@ -1,19 +1,19 @@
 import { screen, fireEvent, waitFor } from '@testing-library/react';
-import { renderApp, fill, currentPath } from '../../test/helpers';
+import { renderAdmin, fill, currentPath } from '../../test/helpers';
 import { db } from '../../data/db';
 import { rawgService } from '../../services/rawgService';
 
 describe('Admin · Productos', () => {
-  it('lista los productos y filtra por búsqueda', () => {
-    renderApp('/admin/productos', { as: 'admin' });
+  it('lista los productos y filtra por búsqueda', async () => {
+    await renderAdmin('/admin/productos');
     expect(document.querySelectorAll('tbody tr').length).toBe(db.games.getAll().length);
     fireEvent.change(screen.getByLabelText('Buscar producto'), { target: { value: 'zelda' } });
     expect(document.querySelectorAll('tbody tr').length).toBe(1);
   });
 
-  it('crea un producto nuevo (CRUD: crear) y redirige a su ficha', () => {
+  it('crea un producto nuevo (CRUD: crear) y redirige a su ficha', async () => {
     const create = spyOn(db.games, 'create').and.callThrough();
-    const { container } = renderApp('/admin/productos/nuevo', { as: 'admin' });
+    const { container } = await renderAdmin('/admin/productos/nuevo');
     fill(container, 'title', 'Hades');
     fill(container, 'category', 'Indie');
     fill(container, 'platform', 'Nintendo Switch');
@@ -28,16 +28,16 @@ describe('Admin · Productos', () => {
     expect(screen.getByRole('heading', { name: 'Hades' })).toBeTruthy();
   });
 
-  it('no guarda si hay errores de validación', () => {
+  it('no guarda si hay errores de validación', async () => {
     const create = spyOn(db.games, 'create');
-    renderApp('/admin/productos/nuevo', { as: 'admin' });
+    await renderAdmin('/admin/productos/nuevo');
     fireEvent.click(screen.getByRole('button', { name: 'Guardar producto' }));
     expect(create).not.toHaveBeenCalled();
     expect(screen.getByText('Selecciona una categoría válida.')).toBeTruthy();
   });
 
-  it('impide duplicar un juego en la misma plataforma', () => {
-    const { container } = renderApp('/admin/productos/nuevo', { as: 'admin' });
+  it('impide duplicar un juego en la misma plataforma', async () => {
+    const { container } = await renderAdmin('/admin/productos/nuevo');
     fill(container, 'title', 'halo infinite');
     fill(container, 'category', 'Shooter');
     fill(container, 'platform', 'Xbox');
@@ -48,8 +48,8 @@ describe('Admin · Productos', () => {
     expect(screen.getByRole('alert').textContent).toContain('Ya existe ese juego');
   });
 
-  it('edita un producto existente (CRUD: actualizar) con el formulario precargado', () => {
-    const { container } = renderApp('/admin/productos/9/editar', { as: 'admin' });
+  it('edita un producto existente (CRUD: actualizar) con el formulario precargado', async () => {
+    const { container } = await renderAdmin('/admin/productos/9/editar');
     expect(container.querySelector('[name="title"]').value).toBe('Gears 5');
     fill(container, 'stock', '40');
     fireEvent.click(screen.getByRole('button', { name: 'Guardar producto' }));
@@ -57,30 +57,30 @@ describe('Admin · Productos', () => {
     expect(currentPath(screen)).toBe('/admin/productos/9');
   });
 
-  it('elimina un producto tras confirmar (CRUD: eliminar)', () => {
-    renderApp('/admin/productos', { as: 'admin' });
+  it('elimina un producto tras confirmar (CRUD: eliminar)', async () => {
+    await renderAdmin('/admin/productos');
     fireEvent.click(screen.getByLabelText('Eliminar Celeste'));
     fireEvent.click(screen.getByRole('button', { name: 'Eliminar' }));
     expect(db.games.getById(16)).toBeNull();
     expect(document.querySelector('tbody').textContent).not.toContain('Celeste');
   });
 
-  it('el listado de críticos muestra solo productos con stock ≤ 5', () => {
-    renderApp('/admin/productos/criticos', { as: 'admin' });
+  it('el listado de críticos muestra solo productos con stock ≤ 5', async () => {
+    await renderAdmin('/admin/productos/criticos');
     const critical = db.games.find(game => game.stock <= 5);
     expect(document.querySelectorAll('tbody tr').length).toBe(critical.length);
   });
 });
 
 describe('Admin · Categorías, usuarios y órdenes', () => {
-  it('no permite eliminar una categoría en uso', () => {
-    renderApp('/admin/categorias', { as: 'admin' });
+  it('no permite eliminar una categoría en uso', async () => {
+    await renderAdmin('/admin/categorias');
     expect(screen.getByLabelText('Eliminar Acción').disabled).toBeTrue();
   });
 
-  it('renombrar una categoría actualiza sus productos', () => {
+  it('renombrar una categoría actualiza sus productos', async () => {
     const rpgCount = db.games.find(game => game.category === 'RPG').length;
-    const { container } = renderApp('/admin/categorias/3/editar', { as: 'admin' });
+    const { container } = await renderAdmin('/admin/categorias/3/editar');
     fill(container, 'name', 'Rol');
     fireEvent.click(screen.getByRole('button', { name: 'Guardar categoría' }));
     expect(rpgCount).toBeGreaterThan(0);
@@ -88,8 +88,8 @@ describe('Admin · Categorías, usuarios y órdenes', () => {
     expect(db.games.find(game => game.category === 'RPG').length).toBe(0);
   });
 
-  it('crea un usuario y muestra su ficha con historial', () => {
-    const { container } = renderApp('/admin/usuarios/nuevo', { as: 'admin' });
+  it('crea un usuario y muestra su ficha con historial', async () => {
+    const { container } = await renderAdmin('/admin/usuarios/nuevo');
     fill(container, 'name', 'Pedro');
     fill(container, 'lastName', 'Soto');
     fill(container, 'email', 'pedro@mail.cl');
@@ -99,14 +99,14 @@ describe('Admin · Categorías, usuarios y órdenes', () => {
     expect(screen.getByText('Aún no hay compras registradas.')).toBeTruthy();
   });
 
-  it('el administrador no puede eliminarse a sí mismo', () => {
-    renderApp('/admin/usuarios', { as: 'admin' });
+  it('el administrador no puede eliminarse a sí mismo', async () => {
+    await renderAdmin('/admin/usuarios');
     expect(screen.getByLabelText('Eliminar admin@game.com').disabled).toBeTrue();
     expect(screen.getByLabelText('Eliminar user@game.com').disabled).toBeFalse();
   });
 
-  it('filtra órdenes por estado y abre la boleta', () => {
-    renderApp('/admin/ordenes', { as: 'admin' });
+  it('filtra órdenes por estado y abre la boleta', async () => {
+    await renderAdmin('/admin/ordenes');
     fireEvent.change(screen.getByLabelText('Filtrar por estado'), { target: { value: 'rechazada' } });
     expect(screen.getByText('No hay órdenes registradas.')).toBeTruthy();
     fireEvent.change(screen.getByLabelText('Filtrar por estado'), { target: { value: 'all' } });
@@ -114,8 +114,8 @@ describe('Admin · Categorías, usuarios y órdenes', () => {
     expect(screen.getByRole('heading', { name: /Boleta LV-/ })).toBeTruthy();
   });
 
-  it('reportes calculan las ventas pagadas', () => {
-    renderApp('/admin/reportes', { as: 'admin' });
+  it('reportes calculan las ventas pagadas', async () => {
+    await renderAdmin('/admin/reportes');
     expect(screen.getByText('Ventas por plataforma')).toBeTruthy();
     expect(screen.getAllByText(/141\.962/).length).toBeGreaterThan(0);
   });
@@ -125,16 +125,16 @@ describe('Admin · Dashboard (sincronización RAWG mockeada)', () => {
   // Productos creados sin portada (los datos semilla ya traen imagen local).
   beforeEach(() => [1, 2].forEach(id => db.games.update(id, { image: '' })));
 
-  it('con todas las portadas presentes el botón queda deshabilitado', () => {
+  it('con todas las portadas presentes el botón queda deshabilitado', async () => {
     db.games.update(1, { image: '/assets/games/1.jpg' });
     db.games.update(2, { image: '/assets/games/2.jpg' });
-    renderApp('/admin', { as: 'admin' });
+    await renderAdmin('/admin');
     expect(screen.getByRole('button', { name: /Portadas al día/ }).disabled).toBeTrue();
   });
 
   it('llama al servicio y notifica el resultado', async () => {
     const sync = spyOn(rawgService, 'syncCovers').and.returnValue(Promise.resolve({ updated: 2, failed: 0, total: 2 }));
-    renderApp('/admin', { as: 'admin' });
+    await renderAdmin('/admin');
     fireEvent.click(screen.getByRole('button', { name: /Sincronizar 2 portadas/ }));
     expect(sync).toHaveBeenCalled();
     expect(await screen.findByText('Catálogo sincronizado')).toBeTruthy();
@@ -143,7 +143,7 @@ describe('Admin · Dashboard (sincronización RAWG mockeada)', () => {
 
   it('muestra un aviso si la API falla', async () => {
     spyOn(rawgService, 'syncCovers').and.returnValue(Promise.reject(new Error('offline')));
-    renderApp('/admin', { as: 'admin' });
+    await renderAdmin('/admin');
     fireEvent.click(screen.getByRole('button', { name: /Sincronizar/ }));
     await waitFor(() => expect(screen.getByText('No se pudo sincronizar')).toBeTruthy());
   });

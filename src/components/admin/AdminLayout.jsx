@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import ThemeToggle from '../common/ThemeToggle';
 
 const LINKS = [
   { to: '/admin', label: 'Dashboard', icon: 'fa-gauge', end: true },
@@ -8,6 +9,7 @@ const LINKS = [
   { to: '/admin/productos', label: 'Productos', icon: 'fa-gamepad' },
   { to: '/admin/categorias', label: 'Categorías', icon: 'fa-tags' },
   { to: '/admin/usuarios', label: 'Usuarios', icon: 'fa-users' },
+  { to: '/admin/resenas', label: 'Reseñas', icon: 'fa-star' },
   { to: '/admin/reportes', label: 'Reportes', icon: 'fa-chart-line' }
 ];
 
@@ -38,7 +40,10 @@ export default function AdminLayout() {
         </nav>
         <div className="mt-auto pt-4 d-grid gap-2">
           <small className="text-secondary">Sesión: {user?.email}</small>
-          <Link className="btn btn-soft" to="/"><i className="fa-solid fa-store me-2" />Tienda</Link>
+          <div className="d-flex gap-2">
+            <Link className="btn btn-soft flex-grow-1" to="/"><i className="fa-solid fa-store me-2" />Tienda</Link>
+            <ThemeToggle className="btn btn-soft" />
+          </div>
           <button type="button" className="btn btn-outline-danger" onClick={() => { logout(); navigate('/'); }}>
             <i className="fa-solid fa-arrow-right-from-bracket me-2" />Cerrar sesión
           </button>

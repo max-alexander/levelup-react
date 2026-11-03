@@ -1,7 +1,7 @@
 // Fuente de datos simulada (equivalente a una base de datos) con operaciones CRUD.
 // Persiste en localStorage y notifica a los componentes suscritos cada vez que cambia,
 // de modo que la interfaz se actualiza en tiempo real (ver hooks/useCollection).
-import { SEED_CATEGORIES, SEED_GAMES, SEED_ORDERS, SEED_USERS } from './seed';
+import { SEED_CATEGORIES, SEED_GAMES, SEED_ORDERS, SEED_REVIEWS, SEED_USERS } from './seed';
 
 // Cambiar la versión fuerza a recargar los datos semilla en navegadores con datos antiguos.
 export const DB_VERSION = 'v3';
@@ -103,7 +103,8 @@ export const db = {
   games: createCollection('games', SEED_GAMES),
   categories: createCollection('categories', SEED_CATEGORIES),
   users: createCollection('users', SEED_USERS),
-  orders: createCollection('orders', SEED_ORDERS)
+  orders: createCollection('orders', SEED_ORDERS),
+  reviews: createCollection('reviews', SEED_REVIEWS)
 };
 
 export function resetDatabase() {

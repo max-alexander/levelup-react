@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
+import SearchBox from './SearchBox';
+import ThemeToggle from '../common/ThemeToggle';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { useFavorites } from '../../context/FavoritesContext';
@@ -15,19 +17,14 @@ export default function Navbar() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [menu, setMenu] = useState(null);
-  const [search, setSearch] = useState('');
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const close = () => {
     setOpen(false);
     setMenu(null);
+    setSearchOpen(false);
   };
   const toggleMenu = name => setMenu(current => (current === name ? null : name));
-
-  const submitSearch = event => {
-    event.preventDefault();
-    navigate(`/productos?q=${encodeURIComponent(search.trim())}`);
-    close();
-  };
 
   const handleLogout = () => {
     logout();
@@ -43,8 +40,13 @@ export default function Navbar() {
         <Link className="navbar-brand brand" to="/" onClick={close}>
           <span className="brand-mark"><i className="fa-solid fa-gamepad" /></span><span>LEVEL/UP</span>
         </Link>
+        <div className="d-flex align-items-center gap-2 d-lg-none ms-auto me-2">
+          <button type="button" className="btn icon-btn" aria-label="Abrir búsqueda" aria-expanded={searchOpen} onClick={() => setSearchOpen(value => !value)}>
+            <i className="fa-solid fa-magnifying-glass" />
+          </button>
+        </div>
         <button className="navbar-toggler border-0" type="button" aria-label="Abrir menú" aria-expanded={open} onClick={() => setOpen(value => !value)}>
-          <i className="fa-solid fa-bars text-white fs-4" />
+          <i className="fa-solid fa-bars nav-toggler-icon fs-4" />
         </button>
         <div className={`collapse navbar-collapse ${open ? 'show' : ''}`}>
           <div className="navbar-nav ms-lg-3 gap-lg-1">
@@ -66,12 +68,11 @@ export default function Navbar() {
             <NavLink className={linkClass} to="/contacto" onClick={close}>Contacto</NavLink>
           </div>
 
-          <form className="nav-search ms-lg-3 my-3 my-lg-0" role="search" onSubmit={submitSearch}>
-            <input className="form-control" type="search" placeholder="Buscar" aria-label="Buscar en la tienda" value={search} onChange={event => setSearch(event.target.value)} />
-            <button className="btn btn-soft" type="submit" aria-label="Buscar"><i className="fa-solid fa-magnifying-glass" /></button>
-          </form>
-
-          <div className="d-flex align-items-center gap-2 ms-lg-auto nav-actions">
+          <div className="d-flex align-items-center gap-2 ms-lg-auto mt-3 mt-lg-0 nav-actions">
+            <button type="button" className="btn icon-btn d-none d-lg-inline-flex" aria-label="Abrir búsqueda" aria-expanded={searchOpen} onClick={() => setSearchOpen(value => !value)}>
+              <i className="fa-solid fa-magnifying-glass" />
+            </button>
+            <ThemeToggle />
             <Link className="btn icon-btn position-relative" to="/favoritos" aria-label="Favoritos" onClick={close}>
               <i className="fa-regular fa-heart" />{favorites.ids.length > 0 && <span className="cart-badge">{favorites.ids.length}</span>}
             </Link>
@@ -94,13 +95,20 @@ export default function Navbar() {
               </div>
             ) : (
               <>
-                <Link className="btn btn-outline-light" to="/login" onClick={close}>Iniciar sesión</Link>
+                <Link className="btn btn-outline-light btn-login" to="/login" onClick={close}>Iniciar sesión</Link>
                 <Link className="btn btn-primary" to="/registro" onClick={close}>Crear cuenta</Link>
               </>
             )}
           </div>
         </div>
       </div>
+      {searchOpen && (
+        <div className="search-panel">
+          <div className="container">
+            <SearchBox autoFocus onNavigate={close} />
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

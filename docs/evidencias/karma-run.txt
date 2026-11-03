@@ -3,337 +3,201 @@
 > karma start karma.conf.cjs --single-run
 
 Webpack bundling...
-02 11 2026 22:30:38.081:INFO [karma-server]: Karma v6.4.4 server started at http://localhost:9876/
-02 11 2026 22:30:38.083:INFO [launcher]: Launching browsers ChromeHeadless with concurrency unlimited
-02 11 2026 22:30:38.099:INFO [launcher]: Starting browser ChromeHeadless
-02 11 2026 22:30:38.813:INFO [Chrome Headless 156.0.0.0 (Windows 10)]: Connected on socket EEYuZCnKJ2bDRAR8AAAA with id 43289092
+02 11 2026 22:55:54.332:INFO [karma-server]: Karma v6.4.4 server started at http://localhost:9876/
+02 11 2026 22:55:54.335:INFO [launcher]: Launching browsers ChromeHeadless with concurrency unlimited
+02 11 2026 22:55:54.345:INFO [launcher]: Starting browser ChromeHeadless
+02 11 2026 22:55:55.004:INFO [Chrome Headless 156.0.0.0 (Windows 10)]: Connected on socket CUYFYLJqTEUENPhUAAAA with id 87342822
 
   Button (props)
-    √ recibe la etiqueta y ejecuta la función onClick (32ms)
-    √ aplica variante y no dispara onClick cuando está deshabilitado (3ms)
+    √ recibe la etiqueta y ejecuta la función onClick (22ms)
+    √ aplica variante y no dispara onClick cuando está deshabilitado (2ms)
 
   AlertMessage (renderizado condicional)
-    √ no renderiza nada cuando no hay error (1ms)
-    √ muestra el mensaje solo cuando hay un error y permite cerrarlo (4ms)
+    √ no renderiza nada cuando no hay error (2ms)
+    √ muestra el mensaje solo cuando hay un error y permite cerrarlo (3ms)
 
   Pagination
     √ calcula los números visibles con saltos (2ms)
-    √ no se muestra con una sola página y notifica el cambio de página (7ms)
+    √ no se muestra con una sola página y notifica el cambio de página (6ms)
 
   FormField
-    √ asocia label e input, y muestra el error con aria-invalid (7ms)
+    √ asocia label e input, y muestra el error con aria-invalid (5ms)
     √ renderiza select y checkbox (4ms)
 
   ConfirmModal y GameImage
-    √ ConfirmModal se oculta con show=false y ejecuta confirm/cancel (3ms)
-    √ GameImage usa placeholder si no hay imagen o si la imagen falla (5ms)
+    √ ConfirmModal se oculta con show=false y ejecuta confirm/cancel (5ms)
+    √ GameImage usa placeholder si no hay imagen o si la imagen falla (8ms)
 
   Navegación y rutas protegidas
-    √ el navbar muestra login/registro sin sesión y el contador del carrito en 0 (74ms)
-    √ el contador del carrito se actualiza al agregar un producto (28ms)
-02 11 2026 22:30:39.332:WARN [web-server]: 404: /base/public/assets/games/18.jpg
-02 11 2026 22:30:39.334:WARN [web-server]: 404: /base/public/assets/games/24.jpg
-02 11 2026 22:30:39.342:WARN [web-server]: 404: /base/public/assets/games/11.jpg
-02 11 2026 22:30:39.355:WARN [web-server]: 404: /base/public/assets/games/1.jpg
-02 11 2026 22:30:39.356:WARN [web-server]: 404: /base/public/assets/games/19.jpg
-02 11 2026 22:30:39.357:WARN [web-server]: 404: /base/public/assets/games/41.jpg
-02 11 2026 22:30:39.373:WARN [web-server]: 404: /base/public/assets/games/2.jpg
-02 11 2026 22:30:39.378:WARN [web-server]: 404: /base/public/assets/games/10.jpg
-02 11 2026 22:30:39.380:WARN [web-server]: 404: /base/public/assets/games/20.jpg
-    √ el buscador del navbar navega al catálogo con el término (122ms)
-02 11 2026 22:30:39.411:WARN [web-server]: 404: /base/public/assets/games/29.jpg
-02 11 2026 22:30:39.412:WARN [web-server]: 404: /base/public/assets/games/6.jpg
-    √ el administrador ve el acceso al panel en el menú de usuario (34ms)
-02 11 2026 22:30:39.470:WARN [web-server]: 404: /base/public/assets/games/11.jpg
-02 11 2026 22:30:39.471:WARN [web-server]: 404: /base/public/assets/games/18.jpg
-02 11 2026 22:30:39.472:WARN [web-server]: 404: /base/public/assets/games/24.jpg
-02 11 2026 22:30:39.473:WARN [web-server]: 404: /base/public/assets/games/1.jpg
-02 11 2026 22:30:39.473:WARN [web-server]: 404: /base/public/assets/games/19.jpg
-02 11 2026 22:30:39.474:WARN [web-server]: 404: /base/public/assets/games/41.jpg
-    √ redirige a /login si se intenta entrar al admin sin sesión (16ms)
-    √ un cliente no puede entrar al panel de administración (22ms)
-    √ el administrador accede al dashboard (11ms)
-02 11 2026 22:30:39.553:WARN [web-server]: 404: /base/public/assets/games/11.jpg
-02 11 2026 22:30:39.558:WARN [web-server]: 404: /base/public/assets/games/18.jpg
-02 11 2026 22:30:39.559:WARN [web-server]: 404: /base/public/assets/games/24.jpg
-02 11 2026 22:30:39.560:WARN [web-server]: 404: /base/public/assets/games/1.jpg
-02 11 2026 22:30:39.561:WARN [web-server]: 404: /base/public/assets/games/19.jpg
-02 11 2026 22:30:39.562:WARN [web-server]: 404: /base/public/assets/games/41.jpg
-    √ cerrar sesión vuelve a mostrar el botón de ingreso (91ms)
-    √ rutas inexistentes muestran la página 404 (7ms)
+    √ el navbar muestra login/registro sin sesión y el contador del carrito en 0 (69ms)
+    √ el contador del carrito se actualiza al agregar un producto (35ms)
+    √ el buscador del navbar navega al catálogo con el término (Enter sin sugerencia elegida) (102ms)
+    √ el administrador ve el acceso al panel en el menú de usuario (30ms)
+    √ redirige a /login si se intenta entrar al admin sin sesión (12ms)
+    √ un cliente no puede entrar al panel de administración (18ms)
+    √ el administrador accede al dashboard (panel cargado con React.lazy) (34ms)
+    √ cerrar sesión vuelve a mostrar el botón de ingreso (61ms)
+    √ rutas inexistentes muestran la página 404 (9ms)
+
+  suggestGames y filtro de precio (lógica)
+    √ prioriza títulos que empiezan con el texto y limita la cantidad (2ms)
+    √ filtra por rango de precio usando el precio con descuento (1ms)
+
+  SearchBox (sugerencias en vivo)
+    √ muestra sugerencias con portada al escribir y las oculta si se borra (30ms)
+    √ con flechas y Enter abre el detalle de la sugerencia elegida (47ms)
+    √ "Ver todos los resultados" lleva al catálogo filtrado (45ms)
+    √ el catálogo filtra por precio desde el selector (30ms)
+
+  Tema claro/oscuro (Context + localStorage)
+    √ aplica el tema guardado y alterna al hacer clic (3ms)
+    √ usa el tema oscuro por defecto (1ms)
+
+  reviewService (lógica de reseñas)
+    √ calcula promedio con un decimal y distribución por estrellas (0ms)
+    √ valida estrellas (1 a 5) y largo del comentario (0ms)
+    √ agrega una reseña, muestra el nombre abreviado e impide reseñar dos veces el mismo juego (2ms)
+    √ byGame filtra y ordena de la más reciente a la más antigua (1ms)
+
+  StarRatingInput (props, estado y eventos de teclado)
+    √ emite la estrella elegida con clic (3ms)
+    √ marca la estrella actual y se maneja con las flechas (4ms)
+    √ el hover previsualiza la calificación (4ms)
+
+  Componentes de reseñas
+    √ ReviewList renderiza una reseña por elemento o un mensaje si no hay (4ms)
+    √ ReviewSummary muestra promedio y cantidad (1ms)
+    √ ReviewForm valida antes de enviar y entrega los datos por onSubmit (21ms)
+
+  Reseñas integradas en la tienda y el admin
+    √ sin sesión invita a iniciar sesión en lugar de mostrar el formulario (20ms)
+    √ un cliente publica una reseña y el promedio se actualiza en vivo (34ms)
+    √ el administrador modera (elimina) una reseña (23ms)
 
   GameCard (props y eventos)
-    √ renderiza los datos del juego recibido por props (4ms)
-02 11 2026 22:30:39.627:WARN [web-server]: 404: /base/public/assets/games/11.jpg
-    √ muestra precio tachado y badge cuando el juego está en oferta (3ms)
-02 11 2026 22:30:39.631:WARN [web-server]: 404: /base/public/assets/games/2.jpg
+    √ renderiza los datos del juego recibido por props (3ms)
+    √ muestra precio tachado y badge cuando el juego está en oferta (2ms)
     √ al hacer clic en "Agregar al carrito" ejecuta onAddToCart con el juego (6ms)
     √ deshabilita la compra cuando no hay stock (3ms)
-02 11 2026 22:30:39.642:WARN [web-server]: 404: /base/public/assets/games/9.jpg
     √ el botón de favorito refleja el estado y emite el id (4ms)
-02 11 2026 22:30:39.646:WARN [web-server]: 404: /base/public/assets/games/11.jpg
 
   GameList (renderizado de listas)
-    √ renderiza una tarjeta por cada elemento del conjunto de datos (80ms)
-02 11 2026 22:30:39.735:WARN [web-server]: 404: /base/public/assets/games/3.jpg
-02 11 2026 22:30:39.736:WARN [web-server]: 404: /base/public/assets/games/4.jpg
-02 11 2026 22:30:39.737:WARN [web-server]: 404: /base/public/assets/games/1.jpg
-02 11 2026 22:30:39.738:WARN [web-server]: 404: /base/public/assets/games/2.jpg
+    √ renderiza una tarjeta por cada elemento del conjunto de datos (87ms)
     √ muestra un estado vacío cuando no hay juegos (2ms)
     √ cambia a vista de lista según la prop layout (3ms)
-02 11 2026 22:30:39.739:WARN [web-server]: 404: /base/public/assets/games/5.jpg
-02 11 2026 22:30:39.740:WARN [web-server]: 404: /base/public/assets/games/6.jpg
-02 11 2026 22:30:39.746:WARN [web-server]: 404: /base/public/assets/games/7.jpg
 
   CatalogFilters (componente controlado)
-    √ emite los filtros actualizados al escribir y seleccionar (8ms)
-02 11 2026 22:30:39.750:WARN [web-server]: 404: /base/public/assets/games/8.jpg
+    √ emite los filtros actualizados al escribir y seleccionar (9ms)
     √ el botón Limpiar llama a onReset (4ms)
-02 11 2026 22:30:39.756:WARN [web-server]: 404: /base/public/assets/games/12.jpg
 
   cartReducer (gestión del estado del carrito)
     √ agrega un producto nuevo con cantidad 1 (0ms)
-    √ suma cantidades sin superar el stock disponible (0ms)
-    √ no agrega productos sin stock (1ms)
+    √ suma cantidades sin superar el stock disponible (1ms)
+    √ no agrega productos sin stock (0ms)
     √ setQuantity actualiza, limita al stock y elimina si llega a 0 (1ms)
-02 11 2026 22:30:39.758:WARN [web-server]: 404: /base/public/assets/games/13.jpg
-02 11 2026 22:30:39.759:WARN [web-server]: 404: /base/public/assets/games/9.jpg
-02 11 2026 22:30:39.763:WARN [web-server]: 404: /base/public/assets/games/10.jpg
-    √ aplica solo cupones válidos y no muta el estado anterior (0ms)
+    √ aplica solo cupones válidos y no muta el estado anterior (1ms)
     √ remove y clear vacían el carrito; acciones desconocidas no cambian nada (1ms)
 
   Base de datos simulada (CRUD + persistencia)
-    √ lee los datos semilla cuando localStorage está vacío (1ms)
-    √ crea registros con id autoincremental y persiste en localStorage (2ms)
+    √ lee los datos semilla cuando localStorage está vacío (2ms)
+    √ crea registros con id autoincremental y persiste en localStorage (1ms)
     √ impide ids duplicados (1ms)
-02 11 2026 22:30:39.768:WARN [web-server]: 404: /base/public/assets/games/14.jpg
-02 11 2026 22:30:39.769:WARN [web-server]: 404: /base/public/assets/games/15.jpg
-    √ actualiza sin cambiar el id y falla si no existe (1ms)
-    √ elimina registros y devuelve false si no existe (1ms)
+    √ actualiza sin cambiar el id y falla si no existe (0ms)
+    √ elimina registros y devuelve false si no existe (0ms)
     √ devuelve copias: mutar el resultado no altera el almacenamiento (1ms)
-    √ notifica a los suscriptores en cada cambio (actualización en tiempo real) (1ms)
-    √ usa el valor por defecto si localStorage tiene JSON corrupto (2ms)
-02 11 2026 22:30:39.778:WARN [web-server]: 404: /base/public/assets/games/16.jpg
-02 11 2026 22:30:39.780:WARN [web-server]: 404: /base/public/assets/games/17.jpg
-02 11 2026 22:30:39.783:WARN [web-server]: 404: /base/public/assets/games/18.jpg
-02 11 2026 22:30:39.785:WARN [web-server]: 404: /base/public/assets/games/19.jpg
-02 11 2026 22:30:39.790:WARN [web-server]: 404: /base/public/assets/games/21.jpg
-02 11 2026 22:30:39.791:WARN [web-server]: 404: /base/public/assets/games/20.jpg
-02 11 2026 22:30:39.794:WARN [web-server]: 404: /base/public/assets/games/22.jpg
-02 11 2026 22:30:39.799:WARN [web-server]: 404: /base/public/assets/games/23.jpg
-02 11 2026 22:30:39.801:WARN [web-server]: 404: /base/public/assets/games/25.jpg
-02 11 2026 22:30:39.803:WARN [web-server]: 404: /base/public/assets/games/24.jpg
-02 11 2026 22:30:39.809:WARN [web-server]: 404: /base/public/assets/games/26.jpg
-02 11 2026 22:30:39.809:WARN [web-server]: 404: /base/public/assets/games/27.jpg
-02 11 2026 22:30:39.812:WARN [web-server]: 404: /base/public/assets/games/28.jpg
-02 11 2026 22:30:39.816:WARN [web-server]: 404: /base/public/assets/games/29.jpg
-02 11 2026 22:30:39.820:WARN [web-server]: 404: /base/public/assets/games/30.jpg
-02 11 2026 22:30:39.823:WARN [web-server]: 404: /base/public/assets/games/31.jpg
+    √ notifica a los suscriptores en cada cambio (actualización en tiempo real) (0ms)
+    √ usa el valor por defecto si localStorage tiene JSON corrupto (1ms)
 
   Admin · Productos
-    √ lista los productos y filtra por búsqueda (48ms)
-02 11 2026 22:30:39.827:WARN [web-server]: 404: /base/public/assets/games/32.jpg
-02 11 2026 22:30:39.829:WARN [web-server]: 404: /base/public/assets/games/33.jpg
-02 11 2026 22:30:39.832:WARN [web-server]: 404: /base/public/assets/games/34.jpg
-02 11 2026 22:30:39.836:WARN [web-server]: 404: /base/public/assets/games/35.jpg
-02 11 2026 22:30:39.839:WARN [web-server]: 404: /base/public/assets/games/36.jpg
-02 11 2026 22:30:39.844:WARN [web-server]: 404: /base/public/assets/games/37.jpg
-02 11 2026 22:30:39.847:WARN [web-server]: 404: /base/public/assets/games/38.jpg
-02 11 2026 22:30:39.848:WARN [web-server]: 404: /base/public/assets/games/39.jpg
-02 11 2026 22:30:39.852:WARN [web-server]: 404: /base/public/assets/games/40.jpg
-02 11 2026 22:30:39.856:WARN [web-server]: 404: /base/public/assets/games/41.jpg
-02 11 2026 22:30:39.858:WARN [web-server]: 404: /base/public/assets/games/42.jpg
-02 11 2026 22:30:39.861:WARN [web-server]: 404: /base/public/assets/games/43.jpg
-02 11 2026 22:30:39.863:WARN [web-server]: 404: /base/public/assets/games/44.jpg
-02 11 2026 22:30:39.866:WARN [web-server]: 404: /base/public/assets/games/45.jpg
-02 11 2026 22:30:39.869:WARN [web-server]: 404: /base/public/assets/games/46.jpg
-02 11 2026 22:30:39.872:WARN [web-server]: 404: /base/public/assets/games/47.jpg
-02 11 2026 22:30:39.881:WARN [web-server]: 404: /base/public/assets/games/48.jpg
-    √ crea un producto nuevo (CRUD: crear) y redirige a su ficha (51ms)
-    √ no guarda si hay errores de validación (16ms)
-    √ impide duplicar un juego en la misma plataforma (23ms)
-02 11 2026 22:30:39.941:WARN [web-server]: 404: /base/public/assets/games/9.jpg
-    √ edita un producto existente (CRUD: actualizar) con el formulario precargado (25ms)
-02 11 2026 22:30:39.975:WARN [web-server]: 404: /base/public/assets/games/5.jpg
-02 11 2026 22:30:39.979:WARN [web-server]: 404: /base/public/assets/games/7.jpg
-02 11 2026 22:30:39.981:WARN [web-server]: 404: /base/public/assets/games/1.jpg
-02 11 2026 22:30:39.981:WARN [web-server]: 404: /base/public/assets/games/4.jpg
-02 11 2026 22:30:39.982:WARN [web-server]: 404: /base/public/assets/games/6.jpg
-02 11 2026 22:30:39.983:WARN [web-server]: 404: /base/public/assets/games/3.jpg
-02 11 2026 22:30:39.991:WARN [web-server]: 404: /base/public/assets/games/13.jpg
-02 11 2026 22:30:39.992:WARN [web-server]: 404: /base/public/assets/games/2.jpg
-02 11 2026 22:30:39.996:WARN [web-server]: 404: /base/public/assets/games/8.jpg
-02 11 2026 22:30:39.998:WARN [web-server]: 404: /base/public/assets/games/12.jpg
-02 11 2026 22:30:40.000:WARN [web-server]: 404: /base/public/assets/games/11.jpg
-    √ elimina un producto tras confirmar (CRUD: eliminar) (58ms)
-02 11 2026 22:30:40.030:WARN [web-server]: 404: /base/public/assets/games/9.jpg
-02 11 2026 22:30:40.032:WARN [web-server]: 404: /base/public/assets/games/16.jpg
-02 11 2026 22:30:40.037:WARN [web-server]: 404: /base/public/assets/games/38.jpg
-02 11 2026 22:30:40.039:WARN [web-server]: 404: /base/public/assets/games/25.jpg
-02 11 2026 22:30:40.041:WARN [web-server]: 404: /base/public/assets/games/23.jpg
-02 11 2026 22:30:40.043:WARN [web-server]: 404: /base/public/assets/games/43.jpg
-    √ el listado de críticos muestra solo productos con stock ≤ 5 (14ms)
-02 11 2026 22:30:40.051:WARN [web-server]: 404: /base/public/assets/games/14.jpg
-02 11 2026 22:30:40.052:WARN [web-server]: 404: /base/public/assets/games/33.jpg
+    √ lista los productos y filtra por búsqueda (75ms)
+    √ crea un producto nuevo (CRUD: crear) y redirige a su ficha (37ms)
+    √ no guarda si hay errores de validación (25ms)
+    √ impide duplicar un juego en la misma plataforma (26ms)
+    √ edita un producto existente (CRUD: actualizar) con el formulario precargado (26ms)
+    √ elimina un producto tras confirmar (CRUD: eliminar) (70ms)
+    √ el listado de críticos muestra solo productos con stock ≤ 5 (19ms)
 
   Admin · Categorías, usuarios y órdenes
-    √ no permite eliminar una categoría en uso (11ms)
-    √ renombrar una categoría actualiza sus productos (23ms)
-    √ crea un usuario y muestra su ficha con historial (27ms)
-    √ el administrador no puede eliminarse a sí mismo (5ms)
-    √ filtra órdenes por estado y abre la boleta (21ms)
-    √ reportes calculan las ventas pagadas (9ms)
+    √ no permite eliminar una categoría en uso (9ms)
+    √ renombrar una categoría actualiza sus productos (27ms)
+    √ crea un usuario y muestra su ficha con historial (29ms)
+    √ el administrador no puede eliminarse a sí mismo (8ms)
+    √ filtra órdenes por estado y abre la boleta (19ms)
+    √ reportes calculan las ventas pagadas (17ms)
 
   Admin · Dashboard (sincronización RAWG mockeada)
-    √ con todas las portadas presentes el botón queda deshabilitado (9ms)
-    √ llama al servicio y notifica el resultado (27ms)
-    √ muestra un aviso si la API falla (18ms)
+    √ con todas las portadas presentes el botón queda deshabilitado (21ms)
+    √ llama al servicio y notifica el resultado (21ms)
+    √ muestra un aviso si la API falla (22ms)
 
   Login (estado del formulario y mocks)
-    √ el estado del formulario cambia cuando el usuario escribe (12ms)
+    √ el estado del formulario cambia cuando el usuario escribe (13ms)
     √ muestra errores de validación y no llama al servicio si el formulario es inválido (11ms)
-    √ el error de validación desaparece cuando se corrige el campo (12ms)
-    √ muestra el mensaje de error que devuelve el servicio (mock que lanza excepción) (11ms)
-    √ con credenciales válidas redirige al admin según el rol (mock que resuelve) (16ms)
+    √ el error de validación desaparece cuando se corrige el campo (15ms)
+    √ muestra el mensaje de error que devuelve el servicio (mock que lanza excepción) (14ms)
+    √ con credenciales válidas redirige al admin según el rol (mock que resuelve) (22ms)
 
   Registro de usuario
     √ valida contraseñas distintas y términos no aceptados (18ms)
-    √ la lista de comunas depende de la región seleccionada (8ms)
-02 11 2026 22:30:40.338:WARN [web-server]: 404: /base/public/assets/games/18.jpg
-02 11 2026 22:30:40.340:WARN [web-server]: 404: /base/public/assets/games/24.jpg
-02 11 2026 22:30:40.341:WARN [web-server]: 404: /base/public/assets/games/1.jpg
-02 11 2026 22:30:40.342:WARN [web-server]: 404: /base/public/assets/games/19.jpg
-02 11 2026 22:30:40.343:WARN [web-server]: 404: /base/public/assets/games/41.jpg
-    √ crea la cuenta, inicia sesión y vuelve al inicio (38ms)
-02 11 2026 22:30:40.352:WARN [web-server]: 404: /base/public/assets/games/11.jpg
-    √ muestra error si el correo ya existe (23ms)
+    √ la lista de comunas depende de la región seleccionada (11ms)
+    √ crea la cuenta, inicia sesión y vuelve al inicio (48ms)
+    √ muestra error si el correo ya existe (36ms)
 
   Vistas de contenido (blog, contacto, nosotros)
-    √ el blog lista todos los artículos y abre su detalle (13ms)
-    √ un artículo inexistente muestra un estado vacío (8ms)
+    √ el blog lista todos los artículos y abre su detalle (12ms)
+    √ un artículo inexistente muestra un estado vacío (5ms)
     √ el formulario de contacto valida y confirma el envío (19ms)
-    √ nosotros muestra misión y visión (7ms)
-02 11 2026 22:30:40.447:WARN [web-server]: 404: /base/public/assets/games/7.jpg
-02 11 2026 22:30:40.448:WARN [web-server]: 404: /base/public/assets/games/32.jpg
-02 11 2026 22:30:40.449:WARN [web-server]: 404: /base/public/assets/games/28.jpg
+    √ nosotros muestra misión y visión (8ms)
 
   Favoritos y Mi cuenta
-    √ marcar un favorito lo muestra en la vista de favoritos (36ms)
-02 11 2026 22:30:40.475:WARN [web-server]: 404: /base/public/assets/games/11.jpg
-02 11 2026 22:30:40.476:WARN [web-server]: 404: /base/public/assets/games/18.jpg
-02 11 2026 22:30:40.476:WARN [web-server]: 404: /base/public/assets/games/24.jpg
-02 11 2026 22:30:40.477:WARN [web-server]: 404: /base/public/assets/games/1.jpg
-02 11 2026 22:30:40.478:WARN [web-server]: 404: /base/public/assets/games/19.jpg
-02 11 2026 22:30:40.478:WARN [web-server]: 404: /base/public/assets/games/41.jpg
-02 11 2026 22:30:40.486:WARN [web-server]: 404: /base/public/assets/games/12.jpg
-02 11 2026 22:30:40.488:WARN [web-server]: 404: /base/public/assets/games/2.jpg
-02 11 2026 22:30:40.490:WARN [web-server]: 404: /base/public/assets/games/13.jpg
-02 11 2026 22:30:40.491:WARN [web-server]: 404: /base/public/assets/games/21.jpg
-    √ no permite agregar más unidades que el stock disponible (25ms)
-02 11 2026 22:30:40.501:WARN [web-server]: 404: /base/public/assets/games/16.jpg
-    √ Mi cuenta muestra el historial y guarda cambios del perfil (26ms)
-    √ Mi cuenta muestra error si el correo ya pertenece a otro usuario (19ms)
-    √ Mi cuenta exige sesión (7ms)
-02 11 2026 22:30:40.591:WARN [web-server]: 404: /base/public/assets/games/15.jpg
-02 11 2026 22:30:40.594:WARN [web-server]: 404: /base/public/assets/games/17.jpg
-02 11 2026 22:30:40.598:WARN [web-server]: 404: /base/public/assets/games/35.jpg
-02 11 2026 22:30:40.602:WARN [web-server]: 404: /base/public/assets/games/20.jpg
-02 11 2026 22:30:40.603:WARN [web-server]: 404: /base/public/assets/games/27.jpg
-02 11 2026 22:30:40.607:WARN [web-server]: 404: /base/public/assets/games/39.jpg
+    √ marcar un favorito lo muestra en la vista de favoritos (42ms)
+    √ no permite agregar más unidades que el stock disponible (29ms)
+    √ Mi cuenta muestra el historial y guarda cambios del perfil (28ms)
+    √ Mi cuenta muestra error si el correo ya pertenece a otro usuario (24ms)
+    √ Mi cuenta exige sesión (10ms)
 
   Catálogo (filtros y paginación)
-    √ pagina los productos y permite cambiar de página (39ms)
-02 11 2026 22:30:40.613:WARN [web-server]: 404: /base/public/assets/games/10.jpg
-02 11 2026 22:30:40.620:WARN [web-server]: 404: /base/public/assets/games/29.jpg
-02 11 2026 22:30:40.623:WARN [web-server]: 404: /base/public/assets/games/34.jpg
-02 11 2026 22:30:40.624:WARN [web-server]: 404: /base/public/assets/games/40.jpg
-02 11 2026 22:30:40.627:WARN [web-server]: 404: /base/public/assets/games/11.jpg
-02 11 2026 22:30:40.631:WARN [web-server]: 404: /base/public/assets/games/18.jpg
-02 11 2026 22:30:40.636:WARN [web-server]: 404: /base/public/assets/games/24.jpg
-02 11 2026 22:30:40.642:WARN [web-server]: 404: /base/public/assets/games/1.jpg
-02 11 2026 22:30:40.648:WARN [web-server]: 404: /base/public/assets/games/19.jpg
-02 11 2026 22:30:40.651:WARN [web-server]: 404: /base/public/assets/games/41.jpg
-02 11 2026 22:30:40.657:WARN [web-server]: 404: /base/public/assets/games/7.jpg
-02 11 2026 22:30:40.661:WARN [web-server]: 404: /base/public/assets/games/12.jpg
-02 11 2026 22:30:40.665:WARN [web-server]: 404: /base/public/assets/games/2.jpg
-02 11 2026 22:30:40.670:WARN [web-server]: 404: /base/public/assets/games/32.jpg
-02 11 2026 22:30:40.674:WARN [web-server]: 404: /base/public/assets/games/28.jpg
-02 11 2026 22:30:40.675:WARN [web-server]: 404: /base/public/assets/games/13.jpg
-    √ filtra por plataforma y limpia los filtros (65ms)
-02 11 2026 22:30:40.678:WARN [web-server]: 404: /base/public/assets/games/16.jpg
-02 11 2026 22:30:40.681:WARN [web-server]: 404: /base/public/assets/games/21.jpg
-02 11 2026 22:30:40.685:WARN [web-server]: 404: /base/public/assets/games/37.jpg
-02 11 2026 22:30:40.687:WARN [web-server]: 404: /base/public/assets/games/30.jpg
-02 11 2026 22:30:40.690:WARN [web-server]: 404: /base/public/assets/games/6.jpg
-02 11 2026 22:30:40.692:WARN [web-server]: 404: /base/public/assets/games/38.jpg
-02 11 2026 22:30:40.693:WARN [web-server]: 404: /base/public/assets/games/9.jpg
-02 11 2026 22:30:40.695:WARN [web-server]: 404: /base/public/assets/games/3.jpg
-02 11 2026 22:30:40.696:WARN [web-server]: 404: /base/public/assets/games/26.jpg
-02 11 2026 22:30:40.698:WARN [web-server]: 404: /base/public/assets/games/47.jpg
+    √ pagina los productos y permite cambiar de página (40ms)
+    √ filtra por plataforma y limpia los filtros (54ms)
     √ la vista de ofertas muestra solo productos con descuento (30ms)
-02 11 2026 22:30:40.715:WARN [web-server]: 404: /base/public/assets/games/5.jpg
-02 11 2026 22:30:40.716:WARN [web-server]: 404: /base/public/assets/games/20.jpg
-02 11 2026 22:30:40.717:WARN [web-server]: 404: /base/public/assets/games/43.jpg
-02 11 2026 22:30:40.717:WARN [web-server]: 404: /base/public/assets/games/10.jpg
-02 11 2026 22:30:40.718:WARN [web-server]: 404: /base/public/assets/games/18.jpg
-02 11 2026 22:30:40.718:WARN [web-server]: 404: /base/public/assets/games/23.jpg
-02 11 2026 22:30:40.726:WARN [web-server]: 404: /base/public/assets/games/2.jpg
-02 11 2026 22:30:40.727:WARN [web-server]: 404: /base/public/assets/games/35.jpg
-02 11 2026 22:30:40.729:WARN [web-server]: 404: /base/public/assets/games/15.jpg
-02 11 2026 22:30:40.730:WARN [web-server]: 404: /base/public/assets/games/22.jpg
-    √ la vista de categoría muestra solo los juegos de esa categoría (21ms)
-02 11 2026 22:30:40.741:WARN [web-server]: 404: /base/public/assets/games/25.jpg
-02 11 2026 22:30:40.743:WARN [web-server]: 404: /base/public/assets/games/38.jpg
-02 11 2026 22:30:40.745:WARN [web-server]: 404: /base/public/assets/games/33.jpg
-02 11 2026 22:30:40.746:WARN [web-server]: 404: /base/public/assets/games/8.jpg
-02 11 2026 22:30:40.748:WARN [web-server]: 404: /base/public/assets/games/14.jpg
+    √ la vista de categoría muestra solo los juegos de esa categoría (24ms)
 
   Carrito
-    √ suma, resta, aplica cupón y recalcula el total (34ms)
-02 11 2026 22:30:40.784:WARN [web-server]: 404: /base/public/assets/games/1.jpg
-02 11 2026 22:30:40.784:WARN [web-server]: 404: /base/public/assets/games/2.jpg
-02 11 2026 22:30:40.785:WARN [web-server]: 404: /base/public/assets/games/10.jpg
-02 11 2026 22:30:40.786:WARN [web-server]: 404: /base/public/assets/games/20.jpg
-    √ muestra error con un cupón inválido y vacía el carrito tras confirmar (32ms)
+    √ suma, resta, aplica cupón y recalcula el total (40ms)
+    √ muestra error con un cupón inválido y vacía el carrito tras confirmar (36ms)
 
-  Checkout (mock de la pasarela de pago)
-    √ autocompleta los datos del cliente si hay sesión iniciada (26ms)
-02 11 2026 22:30:40.847:WARN [web-server]: 404: /base/public/assets/games/1.jpg
-02 11 2026 22:30:40.849:WARN [web-server]: 404: /base/public/assets/games/2.jpg
-02 11 2026 22:30:40.850:WARN [web-server]: 404: /base/public/assets/games/10.jpg
-02 11 2026 22:30:40.851:WARN [web-server]: 404: /base/public/assets/games/20.jpg
-    √ aplica máscaras a la tarjeta y muestra errores si faltan datos (49ms)
-    √ pago aprobado → vista de compra exitosa, carrito vacío y stock descontado (56ms)
-02 11 2026 22:30:40.960:WARN [web-server]: 404: /base/public/assets/games/1.jpg
-02 11 2026 22:30:40.960:WARN [web-server]: 404: /base/public/assets/games/2.jpg
-02 11 2026 22:30:40.961:WARN [web-server]: 404: /base/public/assets/games/10.jpg
-02 11 2026 22:30:40.962:WARN [web-server]: 404: /base/public/assets/games/20.jpg
-    √ pago rechazado → vista de error y "volver a realizar el pago" conserva los datos (58ms)
+  Checkout por pasos (stepper + mock de la pasarela de pago)
+    √ empieza en el paso 1 y autocompleta los datos si hay sesión (33ms)
+    √ no avanza de paso si los campos del paso actual son inválidos (46ms)
+    √ avanza con datos válidos, vuelve atrás sin perder lo escrito y permite saltar a un paso completado (71ms)
+    √ aplica máscaras a la tarjeta y exige datos de pago válidos (57ms)
+    √ pago aprobado → vista de compra exitosa, carrito vacío y stock descontado (76ms)
+    √ pago rechazado → vista de error; reintentar abre directo el paso de pago con los datos guardados (70ms)
 
   authService
-    √ inicia sesión sin exponer la contraseña y sin importar mayúsculas en el correo (0ms)
-    √ rechaza credenciales incorrectas (1ms)
-    √ registra usuarios nuevos como clientes y bloquea correos duplicados (1ms)
+    √ inicia sesión sin exponer la contraseña y sin importar mayúsculas en el correo (1ms)
+    √ rechaza credenciales incorrectas (0ms)
+    √ registra usuarios nuevos como clientes y bloquea correos duplicados (0ms)
     √ logout limpia la sesión y currentUser refleja cambios del admin (1ms)
-    √ updateProfile valida que el correo no pertenezca a otro usuario (0ms)
+    √ updateProfile valida que el correo no pertenezca a otro usuario (1ms)
 
   orderService (proceso de compra)
     √ calcula subtotal, cupón y total (0ms)
     √ construye las líneas con el precio en oferta y valida stock (2ms)
     √ pago aprobado: registra la orden y descuenta stock (pasarela mockeada) (2ms)
     √ pago rechazado: registra la orden como rechazada y NO descuenta stock (1ms)
-    √ reintento de pago reutiliza la misma orden (3ms)
+    √ reintento de pago reutiliza la misma orden (2ms)
     √ la pasarela simulada rechaza la tarjeta de prueba (0ms)
 
   rawgService (API externa mockeada)
-    √ searchCover consulta RAWG y devuelve la primera portada (2ms)
+    √ searchCover consulta RAWG y devuelve la primera portada (0ms)
     √ searchCover lanza error si la API responde con error HTTP (1ms)
     √ syncCovers actualiza solo los juegos sin imagen y cuenta los fallos (4ms)
 
   Lógica del catálogo y formato
-    √ filtra por texto, plataforma y categoría (2ms)
-    √ ordena por precio final (con descuento) sin mutar el arreglo original (1ms)
-    √ pagina resultados y ajusta páginas fuera de rango (1ms)
+    √ filtra por texto, plataforma y categoría (1ms)
+    √ ordena por precio final (con descuento) sin mutar el arreglo original (2ms)
+    √ pagina resultados y ajusta páginas fuera de rango (0ms)
     √ calcula precio final, estado de stock y formato CLP (0ms)
 
   Validadores (lógica de formularios)
@@ -342,17 +206,18 @@ Webpack bundling...
     √ exige contraseñas de 6 a 40 caracteres (0ms)
     √ detecta tarjetas vencidas comparando con la fecha actual (0ms)
     √ runValidators devuelve solo los campos con error (registro) (1ms)
-    √ valida productos: rango de precio, stock y categoría existente (1ms)
-    √ valida datos de tarjeta y URLs (0ms)
+    √ valida productos: rango de precio, stock y categoría existente (0ms)
+    √ valida datos de tarjeta y URLs (1ms)
 
-Chrome Headless 156.0.0.0 (Windows 10): Executed 112 of 112 SUCCESS (1.994 secs / 1.732 secs)
-02-11-2026, 10:30:41 p. m. - TOTAL: 112 SUCCESS
+Chrome Headless 156.0.0.0 (Windows 10): Executed 135 of 135 SUCCESS (2.551 secs / 2.252 secs)
+02-11-2026, 10:55:57 p. m. - TOTAL: 135 SUCCESS
 
-TOTAL: 112 SUCCESS
+TOTAL: 135 SUCCESS
 
 =============================== Coverage summary ===============================
-Statements   : 90.5% ( 944/1043 )
-Branches     : 82.51% ( 618/749 )
-Functions    : 86.19% ( 356/413 )
-Lines        : 92.35% ( 797/863 )
+Statements   : 90.9% ( 1170/1287 )
+Branches     : 83.51% ( 785/940 )
+Functions    : 86.39% ( 438/507 )
+Lines        : 92.59% ( 976/1054 )
 ================================================================================
+02 11 2026 22:55:59.835:WARN [launcher]: ChromeHeadless was not killed in 2000 ms, sending SIGKILL.

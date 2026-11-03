@@ -1,5 +1,5 @@
 // Utilidades compartidas por las pruebas.
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { AppProviders, AppRoutes, ROUTER_FUTURE } from '../App';
 import { authService } from '../services/authService';
@@ -48,3 +48,10 @@ export function fill(container, name, value) {
 }
 
 export const currentPath = screen => screen.getByTestId('location').textContent;
+
+/** Renderiza una ruta del panel admin (cargado con React.lazy) y espera a que termine de cargar. */
+export async function renderAdmin(route = '/admin') {
+  const result = renderApp(route, { as: 'admin' });
+  await screen.findByRole('navigation', { name: 'Administración' });
+  return result;
+}

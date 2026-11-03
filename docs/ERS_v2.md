@@ -9,7 +9,7 @@
 | Versión | Cambios principales |
 |------|--------------------------------------------|
 | 1.0 | Tienda en HTML, CSS, JavaScript y Bootstrap: catálogo desde la API de RAWG, carrito, favoritos, login y administración en ventanas modales. |
-| 2.0 | Catálogo ampliado a 48 juegos (16 por plataforma) con portadas incluidas en el proyecto. Migración a React 18 (SPA con React Router), base de datos simulada en JS con CRUD, nuevas vistas (categorías, ofertas, checkout, pago exitoso/con error, blog, contacto, nosotros, registro) y panel de administración completo. Pruebas unitarias con Jasmine + Karma y reporte de cobertura. |
+| 2.0 | Mejoras sobre la propuesta base: checkout por pasos, reseñas de clientes con moderación, buscador con sugerencias, filtro por precio, tema claro/oscuro y carga diferida del panel admin. Catálogo ampliado a 48 juegos (16 por plataforma) con portadas incluidas en el proyecto. Migración a React 18 (SPA con React Router), base de datos simulada en JS con CRUD, nuevas vistas (categorías, ofertas, checkout, pago exitoso/con error, blog, contacto, nosotros, registro) y panel de administración completo. Pruebas unitarias con Jasmine + Karma y reporte de cobertura. |
 
 ---
 
@@ -98,7 +98,7 @@ db.js (colecciones CRUD) ──► localStorage          rawgService ──► A
 | RF-06 | Listar los productos en oferta, mostrando el precio original tachado y el porcentaje de descuento. | Alta | `Offers`, `PriceTag` |
 | RF-07 | Agregar productos al carrito sin superar el stock disponible. | Alta | `CartContext` (reducer) |
 | RF-08 | En el carrito, modificar cantidades, eliminar productos, vaciar el carrito (con confirmación), aplicar el cupón `LEVEL10` y ver subtotal, descuento y total. | Alta | `Cart`, `ConfirmModal` |
-| RF-09 | El checkout pide nombre, apellidos, correo, dirección (calle, depto., región, comuna dependiente de la región, indicaciones) y datos de tarjeta, con validación en cada campo. | Alta | `Checkout`, `AddressFields` |
+| RF-09 | El checkout es un asistente de 3 pasos (Datos → Envío → Pago) con indicador de progreso. Cada paso valida solo sus campos antes de avanzar; se puede volver atrás o saltar a un paso ya completado sin perder lo escrito; el paso de pago muestra un resumen editable de los datos, y el resumen del pedido queda siempre visible. | Alta | `Checkout`, `Stepper`, `AddressFields` |
 | RF-10 | Si hay sesión iniciada, el checkout se autocompleta con los datos del cliente. | Media | `Checkout` |
 | RF-11 | Pago aprobado: registrar la orden, descontar stock, vaciar el carrito y mostrar la vista "Se ha realizado la compra" con el resumen, un botón para imprimir la boleta (PDF) y otro para enviarla por email (simulado). | Alta | `PaymentResult` |
 | RF-12 | Pago rechazado: registrar la orden como rechazada, mantener el carrito y el stock, y mostrar "No se pudo realizar el pago" con un botón para reintentar que conserva los datos ingresados. | Alta | `PaymentResult`, `orderService` |
@@ -110,6 +110,10 @@ db.js (colecciones CRUD) ──► localStorage          rawgService ──► A
 | RF-18 | Blog con listado y dos artículos de detalle. | Media | `BlogList`, `BlogDetail` |
 | RF-19 | Formulario de contacto validado con mensaje de confirmación. | Media | `Contact` |
 | RF-20 | Página Nosotros con misión y visión, y página 404 para rutas inexistentes. | Baja | `About`, `NotFound` |
+| RF-35 | Reseñas de clientes en el detalle del producto: promedio, cantidad y distribución por estrellas, que se actualizan en vivo. Un usuario con sesión publica una reseña (1 a 5 estrellas y un comentario de 10 a 300 caracteres) y solo una por juego; sin sesión se lo invita a ingresar. | Alta | `ProductReviews`, `ReviewForm`, `StarRatingInput` |
+| RF-36 | Buscador con sugerencias en vivo desde 2 caracteres (portada, plataforma y precio), navegable con flechas, Enter y Esc, y con la opción "Ver todos los resultados". | Media | `SearchBox` |
+| RF-37 | Filtro del catálogo por rango de precio, calculado sobre el precio con descuento. | Media | `CatalogFilters` |
+| RF-38 | Tema claro u oscuro a elección del usuario, guardado entre visitas. | Baja | `ThemeContext`, `ThemeToggle` |
 
 ### 3.2 Administración
 
@@ -126,12 +130,13 @@ db.js (colecciones CRUD) ──► localStorage          rawgService ──► A
 | RF-29 | Usuarios: listar, crear, ver, editar y eliminar (el admin no puede eliminarse a sí mismo) y ver el historial de compras con enlace a cada boleta. | Alta | `UserList`, `UserForm`, `UserView` |
 | RF-30 | Reportes de ventas: total vendido, órdenes pagadas y rechazadas, ticket promedio, y ventas por plataforma, categoría y mes. | Media | `Reports` |
 | RF-31 | Perfil del administrador. | Baja | `Account admin` |
+| RF-39 | Moderación de reseñas: listar, filtrar por calificación y eliminar con confirmación. | Media | `ReviewModeration` |
 
 ### 3.3 Datos (archivo JS como base de datos)
 
 | ID | Requisito |
 |------|------------------------------------------------------|
-| RF-32 | `db.js` expone las colecciones `games`, `categories`, `users` y `orders`, cada una con `getAll`, `getById`, `find`, `create`, `update`, `remove`, `replaceAll` y `reset`. |
+| RF-32 | `db.js` expone las colecciones `games`, `categories`, `users`, `orders` y `reviews`, cada una con `getAll`, `getById`, `find`, `create`, `update`, `remove`, `replaceAll` y `reset`. |
 | RF-33 | Cada escritura persiste en `localStorage` y notifica a los suscriptores; el hook `useCollection` vuelve a renderizar los componentes en tiempo real. |
 | RF-34 | Las lecturas devuelven copias para que la interfaz no pueda mutar los datos almacenados por accidente. |
 
@@ -145,6 +150,7 @@ User     { id, name, lastName, email, password, role: 'admin'|'usuario',
 Order    { id, code, userId, status: 'pagada'|'rechazada', date, customer{name,lastName,email},
            address{...}, items[{id,title,price,quantity}], subtotal, couponDiscount, total,
            authorization, paymentMessage }
+Review   { id, gameId, userId, userName, rating: 1..5, comment, date }
 ```
 
 ---
@@ -158,7 +164,7 @@ Order    { id, code, userId, status: 'pagada'|'rechazada', date, customer{name,l
 | RNF-03 | Calidad | Pruebas unitarias con Jasmine + Karma, con un umbral de cobertura configurado en Karma (statements 70%, branches 55%, functions 65%, lines 70%). Ver el documento de cobertura. |
 | RNF-04 | Accesibilidad | Labels asociados a cada input, `aria-invalid` y mensajes de error vinculados, `aria-label` en botones de ícono y navegación por teclado. |
 | RNF-05 | Seguridad (frontend) | La sesión nunca guarda la contraseña; las rutas de admin se protegen por rol; React escapa el contenido (no se usa `dangerouslySetInnerHTML`); las URLs de imagen se validan como http(s). |
-| RNF-06 | Rendimiento | Build de producción de unos 82 kB gzip de JS; portadas optimizadas (JPG de 330 px, ~30 kB cada una) con `loading="lazy"`; filtros memorizados con `useMemo`. |
+| RNF-06 | Rendimiento | El panel admin se carga bajo demanda con `React.lazy` + `Suspense` (archivo aparte de unos 9 kB gzip que el cliente de la tienda nunca descarga); build de la tienda de unos 82 kB gzip de JS; portadas optimizadas (JPG de 330 px, ~30 kB cada una) con `loading="lazy"`; filtros memorizados con `useMemo`. |
 | RNF-07 | Robustez | Las portadas son locales y no dependen de servicios externos; si una imagen no carga o un producto no tiene portada, se muestra un placeholder por plataforma; si `localStorage` contiene un JSON corrupto, se usan los datos semilla. |
 
 ---
@@ -186,11 +192,11 @@ Order    { id, code, userId, status: 'pagada'|'rechazada', date, customer{name,l
 ```
 TIENDA
 ├── Home ─────────────────────────────┐
-├── Productos ── Detalle producto ── (carrito)
+├── Productos ── Detalle producto (reseñas) ── (carrito)
 ├── Categorías ── Categoría #n
 ├── Ofertas
-├── Carrito ── Checkout ──┬── Pago correcto (boleta)
-│                         └── Pago con error ── Reintentar pago
+├── Carrito ── Checkout 1·2·3 ──┬── Pago correcto (boleta)
+│                               └── Pago con error ── Reintentar pago
 ├── Iniciar sesión ── Registro usuario
 ├── Nosotros · Blog ── Detalle blog #1 / #2 · Contacto
 └── Mi cuenta / Favoritos
@@ -201,6 +207,7 @@ ADMINISTRADOR (/admin)
 ├── Productos ── Nuevo · Mostrar ── Editar · Críticos · Reportes
 ├── Categorías ── Nueva · Editar
 ├── Usuarios ── Nuevo · Mostrar ── Editar · Historial de compras
+├── Reseñas (moderación)
 ├── Reportes
 └── Perfil
 ```
@@ -210,7 +217,7 @@ ADMINISTRADOR (/admin)
 ## 7. Criterios de aceptación
 
 1. `npm run dev` levanta la aplicación y todas las rutas de la sección 6 son navegables.
-2. `npm test` ejecuta 112 pruebas sin fallos y la cobertura supera los umbrales configurados.
+2. `npm test` ejecuta 135 pruebas sin fallos y la cobertura supera los umbrales configurados.
 3. Una compra con la tarjeta de prueba rechazada lleva a la vista de error, y al reintentar con una tarjeta válida se completa la compra.
 4. Los cambios del admin (stock, categorías, usuarios) se reflejan inmediatamente en la tienda.
 5. La tienda se ve correctamente en móvil, tablet y escritorio (capturas en `docs/capturas/`).
