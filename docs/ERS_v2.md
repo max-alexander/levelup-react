@@ -2,6 +2,7 @@
 
 **Proyecto:** LEVEL/UP — Tienda online de videojuegos\
 **Asignatura:** DSY1104 Desarrollo Fullstack II — Evaluación Parcial 2\
+**Equipo:** Max Quijada · Bastián Muñoz · Andrés Camilo Cruz\
 **Versión:** 2.0 (migración a React + pruebas unitarias)\
 **Fecha:** noviembre 2026\
 **Formato:** basado en IEEE 830

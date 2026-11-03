@@ -2,6 +2,8 @@
 
 Entrega 2 de **DSY1104 Desarrollo Fullstack II**. Migración de la tienda LEVEL/UP (HTML + JS + Bootstrap, entrega 1) a una SPA en **React 18**, con **Bootstrap 5** responsivo, base de datos simulada en JavaScript con CRUD y persistencia en `localStorage`, y pruebas unitarias con **Jasmine + Karma**.
 
+**Equipo:** Max Quijada · Bastián Muñoz · Andrés Camilo Cruz
+
 ## Mejoras sobre la propuesta base
 
 - **Checkout por pasos** (Datos → Envío → Pago) con validación por paso y resumen del pedido siempre visible.

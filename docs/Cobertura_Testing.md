@@ -2,6 +2,7 @@
 
 **Proyecto:** LEVEL/UP — Tienda online de videojuegos (frontend React)\
 **Asignatura:** DSY1104 Desarrollo Fullstack II — Evaluación Parcial 2\
+**Equipo:** Max Quijada · Bastián Muñoz · Andrés Camilo Cruz\
 **Herramientas:** Jasmine 5.5 · Karma 6.4 · Chrome Headless · babel-plugin-istanbul + karma-coverage · @testing-library/react\
 **Resultado:** **135 pruebas, 135 exitosas, 0 fallidas**, ejecutadas en unos 2,5 s
 
