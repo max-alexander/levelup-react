@@ -1,0 +1,15 @@
+LEVEL/UP — Inicio recomendado
+
+Windows:
+1. Descomprime la carpeta completa.
+2. Ejecuta INICIAR_TIENDA.bat.
+3. Se abrira http://localhost:5500 en el navegador.
+
+macOS / Linux:
+1. Descomprime la carpeta completa.
+2. Ejecuta iniciar_tienda.sh desde Terminal.
+3. Abre http://localhost:5500 si no se abre automaticamente.
+
+Alternativa: abrir la carpeta en VS Code y usar Live Server.
+
+No abras archivos sueltos desde dentro del ZIP. Mantén index.html, main.js, styles.css y assets juntos.

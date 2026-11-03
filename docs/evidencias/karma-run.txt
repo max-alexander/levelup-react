@@ -1,0 +1,185 @@
+
+> levelup-react@2.0.0 test
+> karma start karma.conf.cjs --single-run
+
+Webpack bundling...
+02 11 2026 21:55:27.296:INFO [karma-server]: Karma v6.4.4 server started at http://localhost:9876/
+02 11 2026 21:55:27.297:INFO [launcher]: Launching browsers ChromeHeadless with concurrency unlimited
+02 11 2026 21:55:27.312:INFO [launcher]: Starting browser ChromeHeadless
+02 11 2026 21:55:28.984:INFO [Chrome Headless 156.0.0.0 (Windows 10)]: Connected on socket YQfWloBRmKAszAI3AAAA with id 22706904
+
+  Button (props)
+    √ recibe la etiqueta y ejecuta la función onClick (47ms)
+    √ aplica variante y no dispara onClick cuando está deshabilitado (4ms)
+
+  AlertMessage (renderizado condicional)
+    √ no renderiza nada cuando no hay error (3ms)
+    √ muestra el mensaje solo cuando hay un error y permite cerrarlo (7ms)
+
+  Pagination
+    √ calcula los números visibles con saltos (3ms)
+    √ no se muestra con una sola página y notifica el cambio de página (10ms)
+
+  FormField
+    √ asocia label e input, y muestra el error con aria-invalid (9ms)
+    √ renderiza select y checkbox (6ms)
+
+  ConfirmModal y GameImage
+    √ ConfirmModal se oculta con show=false y ejecuta confirm/cancel (4ms)
+    √ GameImage usa placeholder si no hay imagen o si la imagen falla (11ms)
+
+  Navegación y rutas protegidas
+    √ el navbar muestra login/registro sin sesión y el contador del carrito en 0 (120ms)
+    √ el contador del carrito se actualiza al agregar un producto (43ms)
+    √ el buscador del navbar navega al catálogo con el término (186ms)
+    √ el administrador ve el acceso al panel en el menú de usuario (49ms)
+    √ redirige a /login si se intenta entrar al admin sin sesión (18ms)
+    √ un cliente no puede entrar al panel de administración (31ms)
+    √ el administrador accede al dashboard (14ms)
+    √ cerrar sesión vuelve a mostrar el botón de ingreso (127ms)
+    √ rutas inexistentes muestran la página 404 (11ms)
+
+  GameCard (props y eventos)
+    √ renderiza los datos del juego recibido por props (5ms)
+    √ muestra precio tachado y badge cuando el juego está en oferta (4ms)
+    √ al hacer clic en "Agregar al carrito" ejecuta onAddToCart con el juego (6ms)
+    √ deshabilita la compra cuando no hay stock (4ms)
+    √ el botón de favorito refleja el estado y emite el id (9ms)
+
+  GameList (renderizado de listas)
+    √ renderiza una tarjeta por cada elemento del conjunto de datos (36ms)
+    √ muestra un estado vacío cuando no hay juegos (3ms)
+    √ cambia a vista de lista según la prop layout (4ms)
+
+  CatalogFilters (componente controlado)
+    √ emite los filtros actualizados al escribir y seleccionar (16ms)
+    √ el botón Limpiar llama a onReset (7ms)
+
+  cartReducer (gestión del estado del carrito)
+    √ agrega un producto nuevo con cantidad 1 (1ms)
+    √ suma cantidades sin superar el stock disponible (1ms)
+    √ no agrega productos sin stock (1ms)
+    √ setQuantity actualiza, limita al stock y elimina si llega a 0 (1ms)
+    √ aplica solo cupones válidos y no muta el estado anterior (1ms)
+    √ remove y clear vacían el carrito; acciones desconocidas no cambian nada (1ms)
+
+  Base de datos simulada (CRUD + persistencia)
+    √ lee los datos semilla cuando localStorage está vacío (1ms)
+    √ crea registros con id autoincremental y persiste en localStorage (2ms)
+    √ impide ids duplicados (1ms)
+    √ actualiza sin cambiar el id y falla si no existe (1ms)
+    √ elimina registros y devuelve false si no existe (1ms)
+    √ devuelve copias: mutar el resultado no altera el almacenamiento (1ms)
+    √ notifica a los suscriptores en cada cambio (actualización en tiempo real) (1ms)
+    √ usa el valor por defecto si localStorage tiene JSON corrupto (1ms)
+
+  Admin · Productos
+    √ lista los productos y filtra por búsqueda (36ms)
+    √ crea un producto nuevo (CRUD: crear) y redirige a su ficha (80ms)
+    √ no guarda si hay errores de validación (31ms)
+    √ impide duplicar un juego en la misma plataforma (43ms)
+    √ edita un producto existente (CRUD: actualizar) con el formulario precargado (37ms)
+    √ elimina un producto tras confirmar (CRUD: eliminar) (52ms)
+    √ el listado de críticos muestra solo productos con stock ≤ 5 (22ms)
+
+  Admin · Categorías, usuarios y órdenes
+    √ no permite eliminar una categoría en uso (13ms)
+    √ renombrar una categoría actualiza sus productos (31ms)
+    √ crea un usuario y muestra su ficha con historial (45ms)
+    √ el administrador no puede eliminarse a sí mismo (10ms)
+    √ filtra órdenes por estado y abre la boleta (49ms)
+    √ reportes calculan las ventas pagadas (18ms)
+
+  Admin · Dashboard (sincronización RAWG mockeada)
+    √ llama al servicio y notifica el resultado (52ms)
+    √ muestra un aviso si la API falla (38ms)
+
+  Login (estado del formulario y mocks)
+    √ el estado del formulario cambia cuando el usuario escribe (17ms)
+    √ muestra errores de validación y no llama al servicio si el formulario es inválido (19ms)
+    √ el error de validación desaparece cuando se corrige el campo (20ms)
+    √ muestra el mensaje de error que devuelve el servicio (mock que lanza excepción) (26ms)
+    √ con credenciales válidas redirige al admin según el rol (mock que resuelve) (45ms)
+
+  Registro de usuario
+    √ valida contraseñas distintas y términos no aceptados (45ms)
+    √ la lista de comunas depende de la región seleccionada (29ms)
+    √ crea la cuenta, inicia sesión y vuelve al inicio (89ms)
+    √ muestra error si el correo ya existe (52ms)
+
+  Vistas de contenido (blog, contacto, nosotros)
+    √ el blog lista todos los artículos y abre su detalle (20ms)
+    √ un artículo inexistente muestra un estado vacío (10ms)
+    √ el formulario de contacto valida y confirma el envío (33ms)
+    √ nosotros muestra misión y visión (17ms)
+
+  Favoritos y Mi cuenta
+    √ marcar un favorito lo muestra en la vista de favoritos (70ms)
+    √ no permite agregar más unidades que el stock disponible (41ms)
+    √ Mi cuenta muestra el historial y guarda cambios del perfil (64ms)
+    √ Mi cuenta muestra error si el correo ya pertenece a otro usuario (42ms)
+    √ Mi cuenta exige sesión (16ms)
+
+  Catálogo (filtros y paginación)
+    √ pagina los productos y permite cambiar de página (65ms)
+    √ filtra por plataforma y limpia los filtros (69ms)
+    √ la vista de ofertas muestra solo productos con descuento (33ms)
+    √ la vista de categoría muestra solo los juegos de esa categoría (25ms)
+
+  Carrito
+    √ suma, resta, aplica cupón y recalcula el total (59ms)
+    √ muestra error con un cupón inválido y vacía el carrito tras confirmar (70ms)
+
+  Checkout (mock de la pasarela de pago)
+    √ autocompleta los datos del cliente si hay sesión iniciada (38ms)
+    √ aplica máscaras a la tarjeta y muestra errores si faltan datos (79ms)
+    √ pago aprobado → vista de compra exitosa, carrito vacío y stock descontado (92ms)
+    √ pago rechazado → vista de error y "volver a realizar el pago" conserva los datos (84ms)
+
+  authService
+    √ inicia sesión sin exponer la contraseña y sin importar mayúsculas en el correo (1ms)
+    √ rechaza credenciales incorrectas (1ms)
+    √ registra usuarios nuevos como clientes y bloquea correos duplicados (1ms)
+    √ logout limpia la sesión y currentUser refleja cambios del admin (1ms)
+    √ updateProfile valida que el correo no pertenezca a otro usuario (1ms)
+
+  orderService (proceso de compra)
+    √ calcula subtotal, cupón y total (3ms)
+    √ construye las líneas con el precio en oferta y valida stock (1ms)
+    √ pago aprobado: registra la orden y descuenta stock (pasarela mockeada) (2ms)
+    √ pago rechazado: registra la orden como rechazada y NO descuenta stock (2ms)
+    √ reintento de pago reutiliza la misma orden (4ms)
+    √ la pasarela simulada rechaza la tarjeta de prueba (1ms)
+
+  rawgService (API externa mockeada)
+    √ searchCover consulta RAWG y devuelve la primera portada (2ms)
+    √ searchCover lanza error si la API responde con error HTTP (3ms)
+    √ syncCovers actualiza solo los juegos sin imagen y cuenta los fallos (5ms)
+
+  Lógica del catálogo y formato
+    √ filtra por texto, plataforma y categoría (1ms)
+    √ ordena por precio final (con descuento) sin mutar el arreglo original (1ms)
+    √ pagina resultados y ajusta páginas fuera de rango (1ms)
+    √ calcula precio final, estado de stock y formato CLP (0ms)
+
+  Validadores (lógica de formularios)
+    √ acepta correos válidos y rechaza inválidos (0ms)
+    √ valida nombres solo con letras (2 a 50) (0ms)
+    √ exige contraseñas de 6 a 40 caracteres (1ms)
+    √ detecta tarjetas vencidas comparando con la fecha actual (0ms)
+    √ runValidators devuelve solo los campos con error (registro) (1ms)
+    √ valida productos: rango de precio, stock y categoría existente (1ms)
+    √ valida datos de tarjeta y URLs (1ms)
+
+Chrome Headless 156.0.0.0 (Windows 10): Executed 111 of 111 SUCCESS (3.06 secs / 2.673 secs)
+02-11-2026, 9:55:32 p. m. - TOTAL: 111 SUCCESS
+
+TOTAL: 111 SUCCESS
+
+=============================== Coverage summary ===============================
+Statements   : 90.46% ( 939/1038 )
+Branches     : 82.45% ( 611/741 )
+Functions    : 86.37% ( 355/411 )
+Lines        : 92.31% ( 793/859 )
+================================================================================
+02 11 2026 21:55:34.551:WARN [launcher]: ChromeHeadless was not killed in 2000 ms, sending SIGKILL.

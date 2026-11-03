@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LEVEL/UP — Videojuegos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg app-nav sticky-top">
+    <div class="container py-2">
+      <a class="navbar-brand brand" href="#" onclick="showView('catalog');return false;">
+        <span class="brand-mark"><i class="fa-solid fa-gamepad"></i></span><span>LEVEL/UP</span>
+      </a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <div class="navbar-nav ms-lg-4 gap-lg-1">
+          <a class="nav-link active" id="nav-catalog" href="#" onclick="showView('catalog');return false;"><i class="fa-solid fa-store me-2"></i>Catálogo</a>
+          <a class="nav-link" id="nav-favorites" href="#" onclick="showView('favorites');return false;"><i class="fa-regular fa-heart me-2"></i>Favoritos <span class="count-pill" id="favorites-count">0</span></a>
+          <a class="nav-link d-none" id="nav-library" href="#" onclick="showView('library');return false;"><i class="fa-solid fa-layer-group me-2"></i>Biblioteca</a>
+          <a class="nav-link d-none" id="nav-admin" href="#" onclick="showView('admin');return false;"><i class="fa-solid fa-sliders me-2"></i>Administración</a>
+        </div>
+        <div class="ms-auto d-flex align-items-center gap-2 mt-3 mt-lg-0">
+          <button class="btn icon-btn position-relative" data-bs-toggle="modal" data-bs-target="#cartModal" aria-label="Carrito">
+            <i class="fa-solid fa-cart-shopping"></i><span class="cart-badge" id="cart-count">0</span>
+          </button>
+          <button class="btn btn-primary" id="login-btn" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fa-solid fa-arrow-right-to-bracket me-2"></i>Ingresar</button>
+          <div class="dropdown d-none" id="user-menu">
+            <button class="btn user-button dropdown-toggle" data-bs-toggle="dropdown"><span id="user-initial">U</span><span id="user-name-short">Usuario</span></button>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
+              <li><a class="dropdown-item" href="#" onclick="showView('profile');return false;"><i class="fa-regular fa-user me-2"></i>Mi cuenta</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><button class="dropdown-item text-danger" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Cerrar sesión</button></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section id="view-catalog" class="app-view">
+      <div class="container py-4 py-lg-5">
+        <section class="hero-store mb-5">
+          <div class="hero-copy">
+            <span class="hero-kicker">PLAYSTATION · XBOX · NINTENDO</span>
+            <h1>Tu próxima historia empieza aquí.</h1>
+            <p>Descubre grandes lanzamientos, clásicos y favoritos de cada plataforma en un solo lugar.</p>
+            <div class="d-flex flex-wrap gap-2 mt-4">
+              <button class="btn btn-primary btn-lg" onclick="scrollToCatalog()">Explorar catálogo <i class="fa-solid fa-arrow-down ms-2"></i></button>
+              <button class="btn btn-soft btn-lg" onclick="applyFeatured()"><i class="fa-solid fa-bolt me-2"></i>Ver destacados</button>
+            </div>
+            <div class="hero-proof mt-4"><span><i class="fa-solid fa-bolt"></i> Entrega digital</span><span><i class="fa-solid fa-shield-halved"></i> Compra segura</span><span><i class="fa-solid fa-headset"></i> Soporte</span></div>
+          </div>
+          <div class="hero-media">
+            <video class="hero-video" autoplay muted loop playsinline controls preload="metadata">
+              <source src="assets/levelup-promo.mp4" type="video/mp4">
+              Tu navegador no puede reproducir este video.
+            </video>
+            <div class="hero-video-badge"><i class="fa-solid fa-circle-play"></i><span>LEVEL/UP SELECTS</span></div>
+          </div>
+        </section>
+
+        <section id="catalog-anchor">
+          <div class="section-head mb-3">
+            <div><span class="section-kicker">TIENDA</span><h2>Catálogo</h2><p id="catalog-count" class="text-secondary mb-1">Cargando juegos...</p><div id="catalog-status" class="catalog-status catalog-status-loading"><span class="status-dot"></span><span>Cargando catálogo...</span></div></div>
+            <div class="view-toggle"><button class="active" id="grid-view-btn" onclick="setCatalogView('grid')"><i class="fa-solid fa-grip"></i></button><button id="list-view-btn" onclick="setCatalogView('list')"><i class="fa-solid fa-list"></i></button></div>
+          </div>
+
+          <div class="filter-panel mb-4">
+            <div class="search-field"><i class="fa-solid fa-magnifying-glass"></i><input id="search-input" type="search" placeholder="Buscar por título, categoría o plataforma..." oninput="filterGames(true)"></div>
+            <select id="platform-filter" class="form-select" onchange="filterGames(true)"><option value="all">Todas las plataformas</option></select>
+            <select id="category-filter" class="form-select" onchange="filterGames(true)"><option value="all">Todos los géneros</option></select>
+            <select id="sort-filter" class="form-select" onchange="filterGames(true)"><option value="featured">Destacados</option><option value="rating">Mejor valorados</option><option value="price-asc">Precio: menor a mayor</option><option value="price-desc">Precio: mayor a menor</option><option value="name">Nombre A-Z</option></select>
+            <button class="btn btn-reset" onclick="resetFilters()"><i class="fa-solid fa-rotate-left"></i><span>Limpiar</span></button>
+          </div>
+
+          <div id="games-container" class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4"></div>
+          <nav class="pagination-wrap" aria-label="Paginación del catálogo"><ul class="pagination justify-content-center" id="catalog-pagination"></ul></nav>
+        </section>
+      </div>
+    </section>
+
+    <section id="view-favorites" class="app-view d-none"><div class="container py-5"><div class="section-head"><div><span class="section-kicker">TU SELECCIÓN</span><h2>Favoritos</h2><p class="text-secondary">Guarda los juegos que quieres revisar después.</p></div></div><div id="favorites-container" class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4"></div></div></section>
+    <section id="view-library" class="app-view d-none"><div class="container py-5"><div class="section-head"><div><span class="section-kicker">TU COLECCIÓN</span><h2>Biblioteca</h2><p class="text-secondary">Tus compras digitales.</p></div></div><div id="library-container" class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4"></div></div></section>
+
+    <section id="view-profile" class="app-view d-none"><div class="container py-5"><div class="row g-4"><div class="col-lg-5"><div class="surface-card"><span class="section-kicker">CUENTA</span><h2>Mi perfil</h2><form id="profile-form" class="needs-validation" novalidate onsubmit="saveProfile(event)"><div class="mb-3"><label class="form-label">Nombre</label><input id="profile-name" class="form-control" minlength="3" maxlength="60" required><div class="invalid-feedback">Ingresa un nombre de 3 a 60 caracteres.</div></div><div class="mb-3"><label class="form-label">Correo</label><input id="profile-email" type="email" class="form-control" maxlength="100" required><div class="invalid-feedback">Ingresa un correo válido.</div></div><button class="btn btn-primary w-100">Guardar cambios</button></form></div></div><div class="col-lg-7"><div class="surface-card"><span class="section-kicker">HISTORIAL</span><h2>Mis compras</h2><div id="orders-container"></div></div></div></div></div></section>
+
+    <section id="view-admin" class="app-view d-none"><div class="container py-5">
+      <div class="admin-top mb-4"><div><span class="section-kicker">GESTIÓN</span><h2>Administración</h2><p class="text-secondary mb-0">Gestiona productos, categorías, clientes y compras.</p></div><button id="rawg-sync-btn" class="btn btn-soft" onclick="syncRawgCatalog({silent:false})"><i class="fa-solid fa-arrows-rotate me-2"></i>Actualizar catálogo</button></div>
+      <div id="admin-stats" class="row g-3 mb-4"></div>
+      <div class="surface-card">
+        <ul class="nav admin-tabs mb-4" role="tablist"><li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#admin-products">Productos</button></li><li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#admin-categories">Categorías</button></li><li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#admin-users">Usuarios</button></li><li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#admin-orders">Compras</button></li></ul>
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="admin-products"><div class="d-flex justify-content-between align-items-center mb-3"><div><h4 class="mb-1">Productos</h4><small class="text-secondary">Crea, edita o elimina productos.</small></div><button class="btn btn-primary" onclick="openGameModal()"><i class="fa-solid fa-plus me-2"></i>Nuevo producto</button></div><div class="table-responsive"><table class="table app-table align-middle"><thead><tr><th>ID</th><th>Juego</th><th>Plataforma</th><th>Stock</th><th>Precio</th><th class="text-end">Acciones</th></tr></thead><tbody id="admin-games-tbody"></tbody></table></div></div>
+          <div class="tab-pane fade" id="admin-categories"><div class="d-flex justify-content-between align-items-center mb-3"><div><h4 class="mb-1">Categorías</h4><small class="text-secondary">Las categorías creadas aquí se reflejan automáticamente en el catálogo y sus filtros.</small></div><button class="btn btn-primary" onclick="openCategoryModal()"><i class="fa-solid fa-plus me-2"></i>Nueva categoría</button></div><div class="table-responsive"><table class="table app-table align-middle"><thead><tr><th>Categoría</th><th>Productos asociados</th><th class="text-end">Acciones</th></tr></thead><tbody id="admin-categories-tbody"></tbody></table></div></div>
+          <div class="tab-pane fade" id="admin-users"><div class="d-flex justify-content-between align-items-center mb-3"><div><h4 class="mb-1">Usuarios</h4><small class="text-secondary">Gestiona las cuentas registradas.</small></div><button class="btn btn-primary" onclick="openUserModal()"><i class="fa-solid fa-user-plus me-2"></i>Nuevo usuario</button></div><div class="table-responsive"><table class="table app-table align-middle"><thead><tr><th>ID</th><th>Nombre</th><th>Correo</th><th>Rol</th><th class="text-end">Acciones</th></tr></thead><tbody id="admin-users-tbody"></tbody></table></div></div>
+          <div class="tab-pane fade" id="admin-orders"><div><h4 class="mb-1">Compras</h4><small class="text-secondary">Historial de pedidos registrados.</small></div><div class="table-responsive mt-3"><table class="table app-table align-middle"><thead><tr><th>Orden</th><th>Cliente</th><th>Fecha</th><th>Productos</th><th>Total</th></tr></thead><tbody id="admin-orders-tbody"></tbody></table></div></div>
+        </div>
+      </div>
+    </div></section>
+  </main>
+
+  <footer class="app-footer"><div class="container py-5"><div class="row g-4"><div class="col-lg-5"><a class="brand mb-3 d-inline-flex" href="#"><span class="brand-mark"><i class="fa-solid fa-gamepad"></i></span><span>LEVEL/UP</span></a><p>Videojuegos para PlayStation, Xbox y Nintendo, reunidos en una experiencia simple y directa.</p></div><div class="col-6 col-lg-3"><h6>Explorar</h6><a href="#" onclick="showView('catalog');return false;">Catálogo</a><a href="#" onclick="showView('favorites');return false;">Favoritos</a></div><div class="col-6 col-lg-4"><h6>Ayuda</h6><span>soporte@levelup.cl</span><span>Santiago, Chile</span></div></div><hr><div class="footer-bottom"><span>© 2026 LEVEL/UP</span><a href="https://rawg.io" target="_blank" rel="noopener">Datos de videojuegos por RAWG</a></div></div></footer>
+
+  <div class="modal fade" id="loginModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Ingresar</h5><button class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body"><form id="login-form" class="needs-validation" novalidate onsubmit="handleLogin(event)"><div class="mb-3"><label class="form-label">Correo</label><input id="login-email" type="email" class="form-control" required><div class="invalid-feedback">Ingresa un correo válido.</div></div><div class="mb-3"><label class="form-label">Contraseña</label><input id="login-password" type="password" class="form-control" minlength="6" required><div class="invalid-feedback">Ingresa tu contraseña.</div></div><button class="btn btn-primary w-100">Ingresar</button><div class="login-help mt-3"><small>Admin: admin@game.com / 123456<br>Cliente: user@game.com / 123456</small></div></form></div></div></div></div>
+
+  <div class="modal fade" id="cartModal" tabindex="-1"><div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title"><i class="fa-solid fa-bag-shopping me-2"></i>Tu carrito</h5><button class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="row g-4"><div class="col-lg-8"><div id="cart-items-container"></div></div><div class="col-lg-4"><div class="cart-summary"><div class="summary-row"><span>Subtotal</span><strong id="cart-subtotal">$0</strong></div><div class="summary-row"><span>Descuento</span><strong id="cart-discount">-$0</strong></div><hr><div class="summary-row total"><span>Total</span><strong id="cart-total-price">$0</strong></div><div class="input-group my-3"><input id="coupon-input" class="form-control" maxlength="20" placeholder="Código de descuento"><button class="btn btn-outline-light" onclick="applyCoupon()">Aplicar</button></div><button class="btn btn-primary w-100" onclick="openCheckout()">Continuar compra</button><button class="btn btn-link text-danger w-100 mt-2" onclick="clearCart()">Vaciar carrito</button></div></div></div></div></div></div></div>
+
+  <div class="modal fade" id="checkoutModal" tabindex="-1"><div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Finalizar compra</h5><button class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body"><form id="checkout-form" class="needs-validation" novalidate onsubmit="checkoutCart(event)"><div class="row g-3"><div class="col-12"><label class="form-label">Nombre del titular</label><input id="card-name" class="form-control" minlength="3" maxlength="70" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]{3,70}" required><div class="invalid-feedback">Ingresa el nombre del titular.</div></div><div class="col-12"><label class="form-label">Número de tarjeta</label><input id="card-number" class="form-control" inputmode="numeric" placeholder="1234 5678 9012 3456" pattern="[\d ]{16,19}" minlength="16" maxlength="19" required><div class="invalid-feedback">Ingresa 16 dígitos.</div></div><div class="col-6"><label class="form-label">Vencimiento</label><input id="card-expiry" class="form-control" inputmode="numeric" placeholder="MM/AA" pattern="(0[1-9]|1[0-2])/\d{2}" maxlength="5" required><div class="invalid-feedback">Usa MM/AA.</div></div><div class="col-6"><label class="form-label">CVV</label><input id="card-cvv" type="password" class="form-control" inputmode="numeric" pattern="\d{3}" maxlength="3" placeholder="123" required><div class="invalid-feedback">Ingresa 3 dígitos.</div></div></div><button class="btn btn-primary w-100 mt-4">Pagar <span id="checkout-total"></span></button></form></div></div></div></div>
+
+  <div class="modal fade" id="gameDetailModal" tabindex="-1"><div class="modal-dialog modal-xl modal-dialog-centered"><div class="modal-content overflow-hidden"><div id="game-detail-content"></div></div></div></div>
+
+  <div class="modal fade" id="gameModal" tabindex="-1"><div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 id="gameModalTitle" class="modal-title">Nuevo producto</h5><button class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body"><form id="game-form" class="needs-validation" novalidate onsubmit="saveGame(event)"><input id="game-id" type="hidden"><div class="row g-3"><div class="col-md-8"><label class="form-label">Título</label><input id="game-title" class="form-control" minlength="2" maxlength="80" required><div class="invalid-feedback">Ingresa entre 2 y 80 caracteres.</div></div><div class="col-md-4"><label class="form-label">Género</label><select id="game-category" class="form-select" required><option value="">Selecciona una categoría</option></select><div class="invalid-feedback">Selecciona una categoría válida.</div></div><div class="col-md-6"><label class="form-label">Plataforma</label><select id="game-platform" class="form-select" required><option value="">Selecciona</option><option>PlayStation</option><option>Xbox</option><option>Nintendo Switch</option></select><div class="invalid-feedback">Selecciona una plataforma.</div></div><div class="col-md-3"><label class="form-label">Precio</label><input id="game-price" type="number" class="form-control" min="4990" max="120000" step="1000" required><div class="invalid-feedback">Precio entre $4.990 y $120.000.</div></div><div class="col-md-3"><label class="form-label">Stock</label><input id="game-stock" type="number" class="form-control" min="0" max="999" step="1" required><div class="invalid-feedback">Stock entre 0 y 999.</div></div><div class="col-md-8"><label class="form-label">URL de imagen</label><input id="game-image" type="url" class="form-control" placeholder="https://..." required><div class="invalid-feedback">Ingresa una URL válida.</div></div><div class="col-md-4"><label class="form-label">Valoración</label><input id="game-rating" type="number" class="form-control" min="1" max="5" step="0.1" required><div class="invalid-feedback">Valor entre 1 y 5.</div></div><div class="col-12"><div class="d-flex justify-content-between"><label class="form-label">Descripción</label><small class="text-secondary"><span id="description-count">0</span>/240</small></div><textarea id="game-description" class="form-control" rows="4" minlength="20" maxlength="240" required></textarea><div class="invalid-feedback">Escribe entre 20 y 240 caracteres.</div></div></div><button class="btn btn-primary w-100 mt-4">Guardar producto</button></form></div></div></div></div>
+
+  <div class="modal fade" id="categoryModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 id="categoryModalTitle" class="modal-title">Nueva categoría</h5><button class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body"><form id="category-form" class="needs-validation" novalidate onsubmit="saveCategory(event)"><input id="category-original-name" type="hidden"><div class="mb-3"><label class="form-label">Nombre de la categoría</label><input id="category-name" class="form-control" minlength="2" maxlength="30" required placeholder="Ej: Acción"><div class="invalid-feedback">Ingresa entre 2 y 30 caracteres.</div></div><p class="text-secondary small">Al renombrar una categoría, los productos asociados también se actualizarán.</p><button class="btn btn-primary w-100">Guardar categoría</button></form></div></div></div></div>
+
+  <div class="modal fade" id="userModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 id="userModalTitle" class="modal-title">Nuevo usuario</h5><button class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body"><form id="user-form" class="needs-validation" novalidate onsubmit="saveUser(event)"><input id="user-id" type="hidden"><div class="mb-3"><label class="form-label">Nombre completo</label><input id="user-name" class="form-control" minlength="3" maxlength="60" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ ]{3,60}" required><div class="invalid-feedback">Ingresa un nombre válido.</div></div><div class="mb-3"><label class="form-label">Correo</label><input id="user-email" type="email" class="form-control" maxlength="100" required><div class="invalid-feedback">Ingresa un correo válido.</div></div><div class="mb-3"><label class="form-label">Contraseña</label><input id="user-password" type="password" class="form-control" minlength="6" maxlength="40" required><div class="invalid-feedback">Debe tener al menos 6 caracteres.</div></div><div class="mb-3"><label class="form-label">Rol</label><select id="user-role" class="form-select" required><option value="usuario">Cliente</option><option value="admin">Administrador</option></select></div><button class="btn btn-primary w-100">Guardar usuario</button></form></div></div></div></div>
+
+  <div class="modal fade" id="confirmModal" tabindex="-1"><div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-body text-center p-4"><div class="confirm-icon"><i class="fa-solid fa-triangle-exclamation"></i></div><h4 id="confirm-title">Confirmar</h4><p id="confirm-message" class="text-secondary"></p><div class="d-flex gap-2"><button class="btn btn-soft flex-fill" data-bs-dismiss="modal">Cancelar</button><button id="confirm-action-btn" class="btn btn-danger flex-fill">Confirmar</button></div></div></div></div></div>
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3"><div id="appToast" class="toast" role="alert"><div class="toast-header"><i class="fa-solid fa-circle-info me-2"></i><strong id="toast-title" class="me-auto">LEVEL/UP</strong><button class="btn-close btn-close-white" data-bs-dismiss="toast"></button></div><div id="toast-message" class="toast-body"></div></div></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
